@@ -1,6 +1,8 @@
 import chalk from 'chalk';
 import { TorrentResult } from '../types';
 
+(chalk as any).level = 1;
+
 export function displayResults(results: TorrentResult[]): void {
   if (results.length === 0) {
     console.log(chalk.yellow('No results found.'));
@@ -18,10 +20,10 @@ export function displayResults(results: TorrentResult[]): void {
   for (const r of results) {
     const name = r.name.length > 38 ? r.name.substring(0, 35) + '...' : r.name;
     const size = r.size ? r.size.slice(0, 6).padEnd(6) : 'N/A   ';
-    const seeds = r.seeds.toString().padStart(5);
-    const peers = r.peers.toString().padStart(5);
+    const seeds = r.seeds > 100 ? chalk.green(r.seeds.toString().padStart(5)) : r.seeds > 50 ? chalk.yellow(r.seeds.toString().padStart(5)) : r.seeds.toString().padStart(5);
+    const peers = r.peers > 50 ? chalk.cyan(r.peers.toString().padStart(5)) : r.peers.toString().padStart(5);
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
-    const num = r.num.toString().padStart(3);
+    const num = chalk.cyan(r.num.toString().padStart(3));
 
     out(`│ ${num} │ ${name.padEnd(38)} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
