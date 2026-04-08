@@ -1,7 +1,7 @@
 {
   "name": "tor-dl",
   "version": "1.0.2",
-  "description": "CLI torrent search and download tool",
+  "description": "CLI torrent search tool - search, open in browser, copy magnet links",
   "main": "dist/index.js",
   "bin": {
     "tor-dl": "dist/bin/tor-dl.js"
@@ -14,10 +14,8 @@
     "axios": "^1.6.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
-    "cli-progress": "^3.12.0",
     "commander": "^11.1.0",
-    "ora": "^6.3.1",
-    "webtorrent": "^1.9.7"
+    "ora": "^6.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

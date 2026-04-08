@@ -3,6 +3,15 @@ import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { FilterConfig, SearchOptions } from '../types';
 
+function getVersion(): string {
+  try {
+    const pkg = JSON.parse(readFileSync(join(__dirname, '../../package.json'), 'utf-8'));
+    return pkg.version || '1.0.0';
+  } catch {
+    return '1.0.0';
+  }
+}
+
 export function loadFilters(): FilterConfig {
   const filtersPath = join(process.cwd(), 'filters.json');
   if (existsSync(filtersPath)) {
@@ -24,13 +33,8 @@ export function createParser(): Command {
   
   program
     .name('tor-dl')
-    .description('CLI torrent search and download tool')
-    .version('1.0.0')
-    .hook('preAction', (thisCommand) => {
-      if (thisCommand.name() === 'update') {
-        return;
-      }
-    });
+    .description('CLI torrent search tool - search, open in browser, copy magnet links')
+    .version(getVersion(), '-v, --version');
 
   program
     .command('search <query>')
@@ -62,39 +66,19 @@ export function createParser(): Command {
       await searchCommand(searchOptions);
     });
 
-  program
-    .command('open <number>')
-    .description('Open .torrent file in browser')
-    .alias('o')
-    .action(async (number: string) => {
-      const { openInBrowser } = await import('../commands/download');
-      await openInBrowser(parseInt(number));
-    });
+  const openCmd = program.command('open <number>', { hidden: true });
+  openCmd.description('Open .torrent in browser or copy magnet to clipboard');
+  openCmd.action(async (number: string) => {
+    const { openInBrowser } = await import('../commands/download');
+    await openInBrowser(parseInt(number));
+  });
 
-  program
-    .command('download <number>')
-    .description('Download a torrent by number from previous search')
-    .option('-p, --path <path>', 'Download path')
-    .action(async (number: string, options) => {
-      const { downloadCommand } = await import('../commands/download');
-      await downloadCommand(parseInt(number), options.path);
-    });
-
-  program
-    .command('update')
-    .description('Update sources from remote config')
-    .alias('u')
-    .action(async () => {
-      const { updateCommand } = await import('../commands/update');
-      await updateCommand();
-    });
-
-  program
-    .argument('<number>', 'Torrent number to download')
-    .action(async (number: string) => {
-      const { downloadCommand } = await import('../commands/download');
-      await downloadCommand(parseInt(number));
-    });
+  const oCmd = program.command('o <number>');
+  oCmd.description('Open .torrent in browser or copy magnet to clipboard');
+  oCmd.action(async (number: string) => {
+    const { openInBrowser } = await import('../commands/download');
+    await openInBrowser(parseInt(number));
+  });
 
   program.on('command:*', () => {
     console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args[0]);

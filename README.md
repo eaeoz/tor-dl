@@ -6,33 +6,22 @@
   <img src="https://img.shields.io/github/license/tor-dl" alt="license">
 </p>
 
-> A powerful CLI torrent search and download tool. Search across multiple torrent sources, filter results, and download directly to your current directory - all from the terminal.
+> A CLI torrent search tool. Search across multiple sources, open .torrent in browser, or copy magnet links to your clipboard.
 
 ## Features
 
-- 🔍 **Multi-Source Search** - Search across 9 popular torrent sources simultaneously
-- 🎯 **Smart Filters** - Filter by category, seeders, size with customizable defaults
-- 📊 **Sort Options** - Sort by seeds, size, or date (ascending/descending)
-- ⬇️ **Direct Downloads** - Download torrents directly using WebTorrent
-- 📈 **Rich Progress** - Beautiful CLI progress bar with speed and ETA
-- 🔄 **Easy Updates** - Update source configurations via `-u` flag
-- ⚙️ **JSON Config** - Fully configurable via `filters.json` and `sources.json`
+- 🔍 **Multi-Source Search** - Search across multiple torrent sources simultaneously
+- 🎯 **Smart Filters** - Filter by category, seeders, size
+- ⬇️ **Open in Browser** - Open .torrent files directly in your browser
+- 📋 **Copy Magnet** - Copy magnet links to clipboard for use with your torrent client
 
 ## Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/eaeoz/tor-dl.git
 cd tor-dl
-
-# Install dependencies
 npm install
-
-# Build the project
 npm run build
-
-# Link for global use (optional)
-npm link
 ```
 
 ## Quick Start
@@ -41,26 +30,9 @@ npm link
 # Search for torrents
 tor-dl search "movie title"
 
-# Download a specific result
-tor-dl 3
-
-# Update sources
-tor-dl -u
+# Open .torrent in browser or copy magnet link
+tor-dl o 3
 ```
-
-## Supported Sources
-
-| Source | Categories | Status |
-|--------|------------|--------|
-| 1337x | All | ✅ Enabled |
-| EZTV | TV | ✅ Enabled |
-| The Pirate Bay | All | ✅ Enabled |
-| RarBG | Movie, TV | ✅ Enabled |
-| Limetorrents | All | ✅ Enabled |
-| TorLock | All | ✅ Enabled |
-| TorrentProject | All | ✅ Enabled |
-| SolidTorrents | All | ✅ Enabled |
-| torrents-csv | All | ✅ Enabled |
 
 ## Usage
 
@@ -81,166 +53,40 @@ tor-dl search <query> [options]
 | `-o, --sort <field>` | Sort by: seeds, size, date | seeds |
 | `--order <order>` | Order: asc, desc | desc |
 | `-l, --limit <number>` | Result limit | 50 |
+| `--sources <sources>` | Sources: yts, thepiratebay, nyaa, etc. | all enabled |
 
 **Examples:**
 
 ```bash
-# Basic search (uses filters.json defaults)
+# Basic search
 tor-dl search "Blade Runner 2049"
 
-# Search with custom filters
+# Filter by seeds and size
 tor-dl search "game of thrones" --cat tv --min-seeds 100 --min-size 500MB
 
-# Sort by size (ascending)
-tor-dl search "movie" --sort size --order asc
-
-# Limit results to top 10
-tor-dl search "linux" -l 10
+# Search specific source
+tor-dl search "movie" --sources yts,thepiratebay
 ```
 
-### Download Command
+### Open Command
 
 ```bash
-# Download by number (from previous search)
-tor-dl <number>
-
-# Or use explicit download command
-tor-dl download <number> [options]
+tor-dl o <number>
 ```
 
-**Options:**
+Opens .torrent file in browser, or copies magnet link to clipboard.
 
-| Flag | Description |
-|------|-------------|
-| `-p, --path <path>` | Custom download path |
+## Supported Sources
 
-**Example:**
-
-```bash
-# Download result #3 from previous search
-tor-dl 3
-```
-
-### Update Command
-
-```bash
-tor-dl update
-# or
-tor-dl -u
-```
-
-Updates source configurations from the remote URL specified in `sources.json`.
-
-### Version
-
-```bash
-tor-dl --version
-# or
-tor-dl -v
-```
-
-## Configuration
-
-### filters.json
-
-Default search filters (can be overridden via CLI):
-
-```json
-{
-  "category": "all",
-  "minSeeds": 0,
-  "minSize": "0",
-  "maxSize": "50GB",
-  "sortBy": "seeds",
-  "order": "desc",
-  "limit": 50
-}
-```
-
-### sources.json
-
-Source configurations with remote update URL:
-
-```json
-{
-  "updateUrl": "https://raw.githubusercontent.com/eaeoz/tor-dl/main/sources.json",
-  "version": "1.0.0",
-  "sources": {
-    "1337x": {
-      "enabled": true,
-      "name": "1337x",
-      "baseUrl": "https://1337x.to",
-      "searchUrl": "https://1337x.to/category-search",
-      "categories": ["all", "movie", "tv", "music", "games", "apps"],
-      "searchParam": "search",
-      "hasMagnet": true
-    }
-  }
-}
-```
-
-## CLI Output Example
-
-```
-┌─────┬─────────────────────────────────────────┬───────────┬────────┬──────────┐
-│ Num │ Name                                    │ Size      │ Seeds  │ Source   │
-├─────┼─────────────────────────────────────────┼───────────┼────────┼──────────┤
-│   1 │ Blade.Runner.2049.2017.720p.BluRay     │ 1.2GB     │  5,000 │ 1337x    │
-│   2 │ Blade.Runner.2049.2017.1080p.BluRay   │ 2.1GB     │  3,200 │ limetorrent │
-│   3 │ Blade.Runner.2049.2017.4K.BluRay      │ 4.5GB     │  1,800 │ rarbg    │
-└─────┴─────────────────────────────────────────┴───────────┴────────┴──────────┘
-
-To download: tor-dl <number>
-```
-
-## Project Structure
-
-```
-tor-dl/
-├── bin/
-│   └── tor-dl.js          # CLI entry point
-├── src/
-│   ├── cli/
-│   │   ├── parser.ts           # Commander.js CLI parser
-│   │   ├── display.ts         # Terminal output formatting
-│   │   └── progress.ts        # Download progress bar
-│   ├── commands/
-│   │   ├── search.ts          # Search command
-│   │   ├── download.ts        # Download command
-│   │   └── update.ts          # Update sources command
-│   ├── sources/
-│   │   ├── _1337x.ts          # 1337x scraper
-│   │   ├── eztv.ts            # EZTV scraper
-│   │   ├── limetorrent.ts     # Limetorrents scraper
-│   │   ├── rarbg.ts           # RarBG scraper
-│   │   └── ...                # More source scrapers
-│   ├── filters/
-│   │   ├── category.ts        # Category filter
-│   │   ├── size.ts            # Size filter
-│   │   ├── seeds.ts           # Seeds filter
-│   │   └── sort.ts            # Sort functionality
-│   ├── download/
-│   │   └── engine.ts          # WebTorrent download engine
-│   └── types.ts               # TypeScript interfaces
-├── sources.json               # Source configurations
-├── filters.json               # Default filters
-└── package.json
-```
+- YTS (Movies)
+- The Pirate Bay
+- Nyaa (Anime)
+- EZTV (TV)
+- And more...
 
 ## Requirements
 
 - Node.js >= 18.0.0
-- npm or yarn
-
-## Tech Stack
-
-- **TypeScript** - Type-safe code
-- **Commander.js** - CLI argument parsing
-- **Axios + Cheerio** - HTTP requests and HTML parsing
-- **WebTorrent** - Torrent downloading
-- **cli-progress** - Rich progress bars
-- **Chalk** - Terminal colors
-- **Ora** - Loading spinners
 
 ## License
 
@@ -248,8 +94,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ## Disclaimer
 
-This tool is for educational purposes. Always respect copyright laws and the terms of service of torrent sites. Download only content you have the right to access.
-
----
-
-<p align="center">Made with ❤️ for the CLI community</p>
+This tool is for educational purposes. Always respect copyright laws and the terms of service of torrent sites.

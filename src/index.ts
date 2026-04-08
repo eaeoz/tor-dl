@@ -1,7 +1,6 @@
 export * from './types';
 export { createParser, loadFilters } from './cli/parser';
 export * from './cli/display';
-export * from './cli/progress';
 export * from './sources/registry';
 export * from './filters';
 export * from './download/engine';

@@ -1,25 +1,15 @@
 import chalk from 'chalk';
 import { TorrentResult } from '../types';
-import { exec } from 'child_process';
 
 (chalk as any).level = 1;
 
-function openUrl(url: string): void {
-  const cmd = process.platform === 'win32' ? `start "" "${url}"` : 
-              process.platform === 'darwin' ? `open "${url}"` : 
-              `xdg-open "${url}"`;
-  exec(cmd, (err) => {
-    if (err) console.error(chalk.red('Failed to open URL: ' + err.message));
-  });
-}
-
-export function displayResults(results: TorrentResult[], onOpenBrowser?: (url: string) => void): void {
+export function displayResults(results: TorrentResult[]): void {
   if (results.length === 0) {
     console.log(chalk.yellow('No results found.'));
     return;
   }
 
-  console.log(chalk.gray('\nTip: Type "o <number>" to open .torrent in browser, or just the number to download.\n'));
+  console.log(chalk.gray('\nTip: "tor-dl o <number>" to open .torrent or copy magnet link\n'));
 
   const out = (s: string) => process.stdout.write(s + '\n');
 
@@ -36,7 +26,7 @@ export function displayResults(results: TorrentResult[], onOpenBrowser?: (url: s
     const peers = r.peers > 50 ? chalk.cyan(r.peers.toString().padStart(5)) : r.peers.toString().padStart(5);
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
     const num = chalk.cyan(r.num.toString().padStart(3));
-    const link = r.torrentUrl ? chalk.cyan('⬇') : ' ';
+    const link = r.torrentUrl || r.magnet ? chalk.cyan('⬇') : ' ';
 
     out(`│ ${num} │ ${link} │ ${name.padEnd(38)} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
@@ -44,7 +34,7 @@ export function displayResults(results: TorrentResult[], onOpenBrowser?: (url: s
   out('├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
   out('└─────┴───┴────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out(chalk.gray('Commands: tor-dl <number> = download, tor-dl o <number> = open in browser'));
+  out(chalk.gray('Use: tor-dl o <number> to open in browser or copy magnet link'));
 }
 
 export function displayResultDetails(result: TorrentResult): void {
