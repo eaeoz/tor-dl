@@ -2,30 +2,19 @@ import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { SourcesJSON, SourceConfig, SourceScraper } from '../types';
 
-import eztv from './eztv';
-import solidtorrents from './solidtorrents';
 import thepiratebay from './thepiratebay';
-import torlock from './torlock';
-import torrentproject from './torrentproject';
 import torrentscsv from './torrentscsv';
-import limetorrent from './limetorrent';
-import _1337x from './1337x';
-import rarbg from './rarbg';
 import yts from './yts';
 import nyaa from './nyaa';
 
 const scrapers: Record<string, SourceScraper> = {
-  eztv,
-  solidtorrents,
-  thepiratebay,
-  torlock,
-  torrentproject,
-  torrentscsv,
-  limetorrent,
-  '1337x': _1337x,
-  rarbg,
+  // Supported working scrapers only
   yts,
-  nyaa
+  thepiratebay,
+  nyaa,
+  torrentscsv
+  // Unsupported scrapers (frequently blocked/change structure):
+  // eztv, solidtorrents, torlock, torrentproject, limetorrent, '1337x', rarbg
 };
 
 export function loadSourcesConfig(): SourcesJSON {

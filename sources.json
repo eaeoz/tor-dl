@@ -12,7 +12,7 @@
       "hasMagnet": true
     },
     "torrentscsv": {
-      "enabled": false,
+      "enabled": true,
       "name": "torrents-csv",
       "baseUrl": "https://torrents-csv.ml",
       "searchUrl": "https://torrents-csv.ml/api/search",
