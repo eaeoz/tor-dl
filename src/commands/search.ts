@@ -40,10 +40,23 @@ export async function searchCommand(options: SearchOptions): Promise<void> {
   const spinner = ora('Searching torrent sources...').start();
   
   let sources = getEnabledSources();
+  const validSourceNames = sources.map(s => s.name.toLowerCase());
   
   if (options.sources && options.sources.length > 0) {
     const requested = options.sources.map(s => s.toLowerCase());
+    const unknownSources = requested.filter(s => !validSourceNames.includes(s));
+    
+    if (unknownSources.length > 0) {
+      spinner.warn(chalk.yellow(`Unknown sources: ${unknownSources.join(', ')}. Available: ${validSourceNames.join(', ')}`));
+    }
+    
     sources = sources.filter(s => requested.includes(s.name.toLowerCase()));
+    
+    if (sources.length === 0) {
+      spinner.fail('No valid sources selected. Use --sources with valid names.');
+      console.log(chalk.cyan('\nAvailable sources:'), validSourceNames.join(', '));
+      process.exit(1);
+    }
   }
   
   const allResults: TorrentResult[] = [];
