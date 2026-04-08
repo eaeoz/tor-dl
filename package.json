@@ -7,7 +7,7 @@
     "tor-dl": "dist/bin/tor-dl.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node -e \"const fs=require('fs');fs.mkdirSync('dist/bin',{recursive:true});fs.copyFileSync('bin/tor-dl.js','dist/bin/tor-dl.js')\"",
     "start": "node dist/bin/tor-dl.js",
     "dev": "ts-node bin/tor-dl.ts"
   },
