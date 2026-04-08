@@ -3,5 +3,4 @@ dist/
 *.log
 .DS_Store
 .env
-.torrent-cache.json
 temp.torrent

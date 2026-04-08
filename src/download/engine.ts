@@ -1,8 +1,9 @@
 import { TorrentResult } from '../types';
 import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { tmpdir } from 'os';
 
-const CACHE_FILE = join(process.cwd(), '.torrent-cache.json');
+const CACHE_FILE = join(tmpdir(), 'tor-dl-cache.json');
 
 function saveCache(results: TorrentResult[]): void {
   try {
