@@ -13,7 +13,7 @@ function getVersion(): string {
 }
 
 export function loadFilters(): FilterConfig {
-  const filtersPath = join(process.cwd(), 'filters.json');
+  const filtersPath = join(__dirname, '../../filters.json');
   if (existsSync(filtersPath)) {
     return JSON.parse(readFileSync(filtersPath, 'utf-8'));
   }
