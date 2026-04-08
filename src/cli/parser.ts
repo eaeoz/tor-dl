@@ -32,9 +32,14 @@ export function createParser(): Command {
   const program = new Command();
   const filters = loadFilters();
   
+  const mainHelp = `
+Categories: all, movie, tv, anime, music, games, apps
+Sources:
+  yts - YTS (Movies) | eztv - EZTV (TV) | thepiratebay - The Pirate Bay | nyaa - Nyaa.si (Anime)`;
+  
   program
     .name('tor-dl')
-    .description('CLI torrent search tool - search, open in browser, copy magnet links')
+    .description('CLI torrent search tool - search, open in browser, copy magnet links' + mainHelp)
     .version(getVersion(), '-v, --version')
     .showHelpAfterError()
     .showSuggestionAfterError();
