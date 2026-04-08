@@ -137,6 +137,44 @@ npm install
 npm run build
 ```
 
+## Using with Windows Command Prompt
+
+On Windows, if you add the tor-dl installation directory to your PATH environment variable, you can use it directly from the command line without needing to specify the full path each time.
+
+### Adding to PATH on Windows
+
+1. Press `Win + R`, type `sysdm.cpl`, and press Enter
+2. Go to **Advanced** tab → **Environment Variables**
+3. Under "User variables" or "System variables", find **Path** and click **Edit**
+4. Add the folder where `tor-dl` is installed (e.g., `C:\Users\YourName\AppData\Roaming\npm`)
+5. Click **OK** and restart your command prompt
+
+### Quick Search Batch Script
+
+Create a batch file (e.g., `search.bat`) in your PATH to quickly search for movies:
+
+```batch
+@echo off
+REM Check if argument is provided
+if "%~1"=="" (
+    echo Please provide a movie name.
+    echo Usage: search.bat "movie name"
+    exit /b
+)
+
+REM Run the command with the provided movie name
+tor-dl search "%~1" --min-size 700MB --max-size 3GB -s 5
+```
+
+**Usage:**
+```bash
+search "scream 7"
+
+or
+
+search.bat "scream 7"
+```
+
 ## Install Transmission (Windows)
 
 For Windows users, you can install Transmission client using winget:
