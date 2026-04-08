@@ -1,4 +1,4 @@
-# AGENTS.md - tordl
+# AGENTS.md - tor-dl
 
 ## Project Type
 Node.js CLI tool for torrent search and download using TypeScript.

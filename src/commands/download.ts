@@ -6,7 +6,7 @@ export async function downloadCommand(number: number, savePath?: string): Promis
   const results = getCachedResults();
   
   if (results.length === 0) {
-    displayError('No search results found. Run "tordl search <query>" first.');
+    displayError('No search results found. Run "tor-dl search <query>" first.');
     process.exit(1);
   }
   

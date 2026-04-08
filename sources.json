@@ -1,5 +1,5 @@
 {
-  "updateUrl": "https://raw.githubusercontent.com/eaeoz/tordl/main/sources.json",
+  "updateUrl": "https://raw.githubusercontent.com/eaeoz/tor-dl/main/sources.json",
   "version": "1.0.0",
   "sources": {
     "yts": {

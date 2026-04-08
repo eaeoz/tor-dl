@@ -23,7 +23,7 @@ export function createParser(): Command {
   const program = new Command();
   
   program
-    .name('tordl')
+    .name('tor-dl')
     .description('CLI torrent search and download tool')
     .version('1.0.0')
     .hook('preAction', (thisCommand) => {

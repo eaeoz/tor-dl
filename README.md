@@ -1,9 +1,9 @@
-# tordl
+# tor-dl
 
 <p align="center">
-  <img src="https://img.shields.io/npm/v/tordl" alt="npm version">
-  <img src="https://img.shields.io/node-version/tordl" alt="node version">
-  <img src="https://img.shields.io/github/license/tordl" alt="license">
+  <img src="https://img.shields.io/npm/v/tor-dl" alt="npm version">
+  <img src="https://img.shields.io/node-version/tor-dl" alt="node version">
+  <img src="https://img.shields.io/github/license/tor-dl" alt="license">
 </p>
 
 > A powerful CLI torrent search and download tool. Search across multiple torrent sources, filter results, and download directly to your current directory - all from the terminal.
@@ -22,8 +22,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/eaeoz/tordl.git
-cd tordl
+git clone https://github.com/eaeoz/tor-dl.git
+cd tor-dl
 
 # Install dependencies
 npm install
@@ -39,13 +39,13 @@ npm link
 
 ```bash
 # Search for torrents
-tordl search "movie title"
+tor-dl search "movie title"
 
 # Download a specific result
-tordl 3
+tor-dl 3
 
 # Update sources
-tordl -u
+tor-dl -u
 ```
 
 ## Supported Sources
@@ -67,7 +67,7 @@ tordl -u
 ### Search Command
 
 ```bash
-tordl search <query> [options]
+tor-dl search <query> [options]
 ```
 
 **Options:**
@@ -86,26 +86,26 @@ tordl search <query> [options]
 
 ```bash
 # Basic search (uses filters.json defaults)
-tordl search "Blade Runner 2049"
+tor-dl search "Blade Runner 2049"
 
 # Search with custom filters
-tordl search "game of thrones" --cat tv --min-seeds 100 --min-size 500MB
+tor-dl search "game of thrones" --cat tv --min-seeds 100 --min-size 500MB
 
 # Sort by size (ascending)
-tordl search "movie" --sort size --order asc
+tor-dl search "movie" --sort size --order asc
 
 # Limit results to top 10
-tordl search "linux" -l 10
+tor-dl search "linux" -l 10
 ```
 
 ### Download Command
 
 ```bash
 # Download by number (from previous search)
-tordl <number>
+tor-dl <number>
 
 # Or use explicit download command
-tordl download <number> [options]
+tor-dl download <number> [options]
 ```
 
 **Options:**
@@ -118,15 +118,15 @@ tordl download <number> [options]
 
 ```bash
 # Download result #3 from previous search
-tordl 3
+tor-dl 3
 ```
 
 ### Update Command
 
 ```bash
-tordl update
+tor-dl update
 # or
-tordl -u
+tor-dl -u
 ```
 
 Updates source configurations from the remote URL specified in `sources.json`.
@@ -134,9 +134,9 @@ Updates source configurations from the remote URL specified in `sources.json`.
 ### Version
 
 ```bash
-tordl --version
+tor-dl --version
 # or
-tordl -v
+tor-dl -v
 ```
 
 ## Configuration
@@ -163,7 +163,7 @@ Source configurations with remote update URL:
 
 ```json
 {
-  "updateUrl": "https://raw.githubusercontent.com/eaeoz/tordl/main/sources.json",
+  "updateUrl": "https://raw.githubusercontent.com/eaeoz/tor-dl/main/sources.json",
   "version": "1.0.0",
   "sources": {
     "1337x": {
@@ -190,15 +190,15 @@ Source configurations with remote update URL:
 │   3 │ Blade.Runner.2049.2017.4K.BluRay      │ 4.5GB     │  1,800 │ rarbg    │
 └─────┴─────────────────────────────────────────┴───────────┴────────┴──────────┘
 
-To download: tordl <number>
+To download: tor-dl <number>
 ```
 
 ## Project Structure
 
 ```
-tordl/
+tor-dl/
 ├── bin/
-│   └── tordl.js          # CLI entry point
+│   └── tor-dl.js          # CLI entry point
 ├── src/
 │   ├── cli/
 │   │   ├── parser.ts           # Commander.js CLI parser

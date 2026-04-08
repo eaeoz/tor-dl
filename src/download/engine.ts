@@ -165,7 +165,7 @@ export async function downloadByNumber(
   const results = getCachedResults();
   
   if (results.length === 0) {
-    throw new Error('No search results. Run "tordl search" first.');
+    throw new Error('No search results. Run "tor-dl search" first.');
   }
   
   if (number < 1 || number > results.length) {

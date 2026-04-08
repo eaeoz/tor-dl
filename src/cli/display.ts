@@ -28,7 +28,7 @@ export function displayResults(results: TorrentResult[]): void {
 
   out('└─────┴───────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out('To download: tordl <number>');
+  out('To download: tor-dl <number>');
 }
 
 export function displayResultDetails(result: TorrentResult): void {
