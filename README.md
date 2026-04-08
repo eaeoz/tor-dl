@@ -127,6 +127,17 @@ Examples: `500MB`, `1.5GB`, `2GB`
 
 - Node.js >= 18.0.0
 - npm
+- Transmission (optional, for Windows)
+
+## Install Transmission (Windows)
+
+For Windows users, you can install Transmission client using winget:
+
+```bash
+winget install Transmission.Transmission
+```
+
+After installation, you can open magnet links directly in Transmission.
 
 ## Local Installation
 
