@@ -129,6 +129,15 @@ Examples: `500MB`, `1.5GB`, `2GB`
 - npm
 - Transmission (optional, for Windows)
 
+## Local Installation
+
+```bash
+git clone https://github.com/eaeoz/tor-dl.git
+cd tor-dl
+npm install
+npm run build
+```
+
 ## Install Transmission (Windows)
 
 For Windows users, you can install Transmission client using winget:
@@ -138,15 +147,6 @@ winget install Transmission.Transmission
 ```
 
 After installation, you can open magnet links directly in Transmission.
-
-## Local Installation
-
-```bash
-git clone https://github.com/eaeoz/tor-dl.git
-cd tor-dl
-npm install
-npm run build
-```
 
 ## Author
 
