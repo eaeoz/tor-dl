@@ -155,24 +155,18 @@ Create a batch file (e.g., `search.bat`) in your PATH to quickly search for movi
 
 ```batch
 @echo off
-REM Check if argument is provided
-if "%~1"=="" (
+
+if "%*"=="" (
     echo Please provide a movie name.
-    echo Usage: search.bat "movie name"
     exit /b
 )
 
-REM Run the command with the provided movie name
-tor-dl search "%~1" --min-size 700MB --max-size 3GB -s 5
+tor-dl search "%*" --min-size 700MB --max-size 3GB -s 5
 ```
 
 **Usage:**
 ```bash
-search "scream 7"
-
-or
-
-search.bat "scream 7"
+search scream 7
 ```
 
 ## Install Transmission (Windows)
