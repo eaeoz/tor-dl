@@ -7,19 +7,19 @@ Node.js CLI tool for torrent search and download using TypeScript.
 ```bash
 npm install
 npm run build
-node dist/bin/tordl.js --help
+node dist/bin/tor-dl.js --help
 ```
 
 ## Build Commands
 - `npm run build` - Compile TypeScript to `dist/`
-- `npm run start` or `node dist/bin/tordl.js` - Run CLI
+- `npm run start` or `node dist/bin/tor-dl.js` - Run CLI
 
 ## Common Commands
 ```bash
-node dist/bin/tordl.js search "movie title"
-node dist/bin/tordl.js 1              # Download result #1
-node dist/bin/tordl.js -u               # Update sources
-node dist/bin/tordl.js -v               # Version
+node dist/bin/tor-dl.js search "movie title"
+node dist/bin/tor-dl.js 1              # Download result #1
+node dist/bin/tor-dl.js -u               # Update sources
+node dist/bin/tor-dl.js -v               # Version
 ```
 
 ## Critical Fixes (Do Not Remove)
