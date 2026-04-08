@@ -26,7 +26,7 @@ export function displayResults(results: TorrentResult[]): void {
     const peers = r.peers > 50 ? chalk.cyan(r.peers.toString().padStart(5)) : r.peers.toString().padStart(5);
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
     const num = chalk.cyan(r.num.toString().padStart(3));
-    const link = r.torrentUrl || r.magnet ? chalk.cyan('⬇') : ' ';
+    const link = r.torrentUrl || r.magnet ? chalk.green('✓') : ' ';
 
     out(`│ ${num} │ ${link} │ ${name.padEnd(38)} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
