@@ -1,0 +1,9 @@
+{
+  "category": "all",
+  "minSeeds": 0,
+  "minSize": "0",
+  "maxSize": "50GB",
+  "sortBy": "seeds",
+  "order": "desc",
+  "limit": 50
+}
