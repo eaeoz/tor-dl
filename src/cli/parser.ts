@@ -55,7 +55,7 @@ Sources:
     .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
     .option('--order <order>', 'Order (asc|desc)')
     .option('-l, --limit <number>', 'Max results (default: 50)', parseInt)
-    .option('--sources <sources>', 'Sources (yts,eztv,thepiratebay,nyaa)')
+    .option('-S, --sources <sources>', 'Sources (yts,eztv,thepiratebay,nyaa)')
     .option('-h, --help', 'Show help with examples')
     .allowUnknownOption()
     .hook('preAction', (thisCommand) => {

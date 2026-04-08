@@ -36,7 +36,7 @@ tor-dl search <query> [options]
 | `-o, --sort <field>` | Sort results by field | `seeds`, `size`, `date` |
 | `--order <order>` | Sort order | `asc` (low to high), `desc` (high to low) |
 | `-l, --limit <number>` | Maximum results to return | `10`, `50`, `100` |
-| `--sources <sources>` | Sources to search (comma-separated) | `yts,thepiratebay,nyaa` |
+| `-S, --sources <sources>` | Sources to search (comma-separated) | `yts,thepiratebay,nyaa` |
 
 **Available Categories:**
 - `all` - Search all categories
@@ -66,7 +66,7 @@ tor-dl search "movie" --cat movie --min-seeds 100
 tor-dl search "linux" --min-size 500MB --max-size 2GB
 
 # Search specific sources only
-tor-dl search "game" --sources yts,thepiratebay
+tor-dl search "game" -S yts,thepiratebay
 
 # Sort by size (smallest first)
 tor-dl search "documentary" --sort size --order asc
