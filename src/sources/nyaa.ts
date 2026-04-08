@@ -36,6 +36,8 @@ export class NyaaScraper implements SourceScraper {
         const peers = parseInt($(el).find('td:nth-child(7)').text().trim()) || 0;
         
         if (title && title.length > 3) {
+          const idMatch = link.match(/\/view\/(\d+)/);
+          const torrentUrl = idMatch ? `https://nyaa.si/download/${idMatch[1]}.torrent` : '';
           results.push({
             num: results.length + 1,
             name: title,
@@ -45,6 +47,7 @@ export class NyaaScraper implements SourceScraper {
             peers,
             source: 'Nyaa',
             url: link,
+            torrentUrl,
             magnet: ''
           });
         }

@@ -11,6 +11,7 @@ export interface TorrentResult {
   hash?: string;
   category?: string;
   date?: string;
+  torrentUrl?: string;
 }
 
 export interface SourceConfig {

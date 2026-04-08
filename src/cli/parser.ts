@@ -63,6 +63,15 @@ export function createParser(): Command {
     });
 
   program
+    .command('open <number>')
+    .description('Open .torrent file in browser')
+    .alias('o')
+    .action(async (number: string) => {
+      const { openInBrowser } = await import('../commands/download');
+      await openInBrowser(parseInt(number));
+    });
+
+  program
     .command('download <number>')
     .description('Download a torrent by number from previous search')
     .option('-p, --path <path>', 'Download path')

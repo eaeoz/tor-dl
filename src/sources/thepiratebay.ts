@@ -30,6 +30,7 @@ export class ThePirateBayScraper implements SourceScraper {
         peers: parseInt(item.leechers) || 0,
         source: 'ThePirateBay',
         url: `https://thepiratebay.org/torrent/${item.id}`,
+        torrentUrl: `magnet:?xt=urn:btih:${item.info_hash}`,
         magnet: `magnet:?xt=urn:btih:${item.info_hash}`,
         hash: item.info_hash
       }));

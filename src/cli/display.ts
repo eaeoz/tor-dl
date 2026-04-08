@@ -1,20 +1,32 @@
 import chalk from 'chalk';
 import { TorrentResult } from '../types';
+import { exec } from 'child_process';
 
 (chalk as any).level = 1;
 
-export function displayResults(results: TorrentResult[]): void {
+function openUrl(url: string): void {
+  const cmd = process.platform === 'win32' ? `start "" "${url}"` : 
+              process.platform === 'darwin' ? `open "${url}"` : 
+              `xdg-open "${url}"`;
+  exec(cmd, (err) => {
+    if (err) console.error(chalk.red('Failed to open URL: ' + err.message));
+  });
+}
+
+export function displayResults(results: TorrentResult[], onOpenBrowser?: (url: string) => void): void {
   if (results.length === 0) {
     console.log(chalk.yellow('No results found.'));
     return;
   }
 
+  console.log(chalk.gray('\nTip: Type "o <number>" to open .torrent in browser, or just the number to download.\n'));
+
   const out = (s: string) => process.stdout.write(s + '\n');
 
   out('\n' + [
-    '┌─────┬────────────────────────────────────────┬────────┬───────┬───────┬────────┐',
-    '│ Num │ Name                                   │ Size   │ Seeds │ Leech │ Source │',
-    '├─────┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤'
+    '┌─────┬───┬────────────────────────────────────────┬────────┬───────┬───────┬────────┐',
+    '│ Num │ L │ Name                                   │ Size   │ Seeds │ Leech │ Source │',
+    '├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤'
   ].join('\n'));
 
   for (const r of results) {
@@ -24,14 +36,15 @@ export function displayResults(results: TorrentResult[]): void {
     const peers = r.peers > 50 ? chalk.cyan(r.peers.toString().padStart(5)) : r.peers.toString().padStart(5);
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
     const num = chalk.cyan(r.num.toString().padStart(3));
+    const link = r.torrentUrl ? chalk.cyan('⬇') : ' ';
 
-    out(`│ ${num} │ ${name.padEnd(38)} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
+    out(`│ ${num} │ ${link} │ ${name.padEnd(38)} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
 
-  out('├─────┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
-  out('└─────┴────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
+  out('├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
+  out('└─────┴───┴────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out('To download: tor-dl <number>');
+  out(chalk.gray('Commands: tor-dl <number> = download, tor-dl o <number> = open in browser'));
 }
 
 export function displayResultDetails(result: TorrentResult): void {

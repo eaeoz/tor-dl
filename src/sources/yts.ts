@@ -34,6 +34,7 @@ export class YtsScraper implements SourceScraper {
             peers: movie.torrents?.[0]?.peers || 0,
             source: 'YTS',
             url: movie.torrents?.[0]?.url || '',
+            torrentUrl: movie.torrents?.[0]?.url || '',
             magnet: movie.torrents?.[0]?.hash ? `magnet:?xt=urn:btih:${movie.torrents[0].hash}` : '',
             hash: movie.torrents?.[0]?.hash
           });
