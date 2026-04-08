@@ -1,9 +1,40 @@
 import ora from 'ora';
+import chalk from 'chalk';
 import { SearchOptions, TorrentResult } from '../types';
 import { getEnabledSources } from '../sources/registry';
 import { filterByCategory, filterBySize, filterBySeeds, sortResults } from '../filters';
-import { displayResults, displayError } from '../cli/display';
+import { displayResults } from '../cli/display';
 import { cacheResults } from '../download/engine';
+
+function displaySearchInfo(options: SearchOptions, sources: any[]): void {
+  console.log(chalk.gray('\n--- Search Parameters ---'));
+  
+  const sourceNames = sources.map(s => s.name).join(', ');
+  console.log(chalk.white('Sources:  ') + chalk.cyan(sourceNames));
+  console.log(chalk.white('Query:    ') + chalk.cyan(options.query));
+  
+  if (options.category) {
+    console.log(chalk.white('Category: ') + chalk.cyan(options.category));
+  }
+  if (options.minSeeds) {
+    const seeds = options.maxSeeds ? `${options.minSeeds} - ${options.maxSeeds}` : `${options.minSeeds}+`;
+    console.log(chalk.white('Seeds:    ') + chalk.cyan(seeds));
+  }
+  if (options.minSize) {
+    console.log(chalk.white('Min Size: ') + chalk.cyan(options.minSize));
+  }
+  if (options.maxSize) {
+    console.log(chalk.white('Max Size: ') + chalk.cyan(options.maxSize));
+  }
+  if (options.sortBy) {
+    console.log(chalk.white('Sort:     ') + chalk.cyan(`${options.sortBy} (${options.order})`));
+  }
+  if (options.limit) {
+    console.log(chalk.white('Limit:    ') + chalk.cyan(options.limit.toString()));
+  }
+  
+  console.log(chalk.gray('------------------------\n'));
+}
 
 export async function searchCommand(options: SearchOptions): Promise<void> {
   const spinner = ora('Searching torrent sources...').start();
@@ -32,7 +63,7 @@ export async function searchCommand(options: SearchOptions): Promise<void> {
   let filtered = filterByCategory(allResults, options.category || 'all');
   
   if (options.minSeeds && options.minSeeds > 0) {
-    filtered = filterBySeeds(filtered, options.minSeeds);
+    filtered = filterBySeeds(filtered, options.minSeeds, options.maxSeeds);
   }
   
   if (options.minSize || options.maxSize) {
@@ -49,5 +80,6 @@ export async function searchCommand(options: SearchOptions): Promise<void> {
   
   cacheResults(filtered);
   
+  displaySearchInfo(options, sources);
   displayResults(filtered);
 }

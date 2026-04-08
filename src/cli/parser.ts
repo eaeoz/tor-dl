@@ -38,15 +38,16 @@ export function createParser(): Command {
 
   program
     .command('search <query>')
-    .description('Search for torrents')
-    .option('-c, --cat <category>', 'Category: all, movie, tv')
-    .option('-s, --min-seeds <number>', 'Minimum seeds', parseInt)
-    .option('--min-size <size>', 'Minimum size (e.g., 500MB, 1GB)')
-    .option('--max-size <size>', 'Maximum size (e.g., 5GB)')
+    .description('Search for torrents across multiple sources')
+    .option('-c, --cat <category>', 'Category: all, movie, tv, anime, music, games, apps')
+    .option('-s, --min-seeds <number>', 'Minimum seeders (e.g., 100)', parseInt)
+    .option('--max-seeds <number>', 'Maximum seeders (e.g., 1000)', parseInt)
+    .option('--min-size <size>', 'Minimum size (e.g., 500MB, 1GB, 2GB)')
+    .option('--max-size <size>', 'Maximum size (e.g., 5GB, 10GB)')
     .option('-o, --sort <sortBy>', 'Sort by: seeds, size, date')
-    .option('--order <order>', 'Order: asc, desc')
-    .option('-l, --limit <limit>', 'Result limit', parseInt)
-    .option('--sources <sources>', 'Comma-separated source names')
+    .option('--order <order>', 'Sort order: asc (low to high), desc (high to low)')
+    .option('-l, --limit <limit>', 'Maximum results to return (default: 50)', parseInt)
+    .option('--sources <sources>', 'Sources to search: yts, eztv, thepiratebay, nyaa (comma-separated)')
     .action(async (query: string, options) => {
       const filters = loadFilters();
       
@@ -54,6 +55,7 @@ export function createParser(): Command {
         query,
         category: options.cat || filters.category,
         minSeeds: options.minSeeds ?? filters.minSeeds,
+        maxSeeds: options.maxSeeds,
         minSize: options.minSize || filters.minSize,
         maxSize: options.maxSize || filters.maxSize,
         sortBy: (options.sort as 'seeds' | 'size' | 'date') || filters.sortBy,

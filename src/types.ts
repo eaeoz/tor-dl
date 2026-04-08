@@ -44,6 +44,7 @@ export interface SearchOptions {
   query: string;
   category?: string;
   minSeeds?: number;
+  maxSeeds?: number;
   minSize?: string;
   maxSize?: string;
   sortBy?: 'seeds' | 'size' | 'date';

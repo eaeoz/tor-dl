@@ -1,19 +1,6 @@
 # tor-dl
 
-<p align="center">
-  <img src="https://img.shields.io/npm/v/tor-dl" alt="npm version">
-  <img src="https://img.shields.io/node-version/tor-dl" alt="node version">
-  <img src="https://img.shields.io/github/license/tor-dl" alt="license">
-</p>
-
-> A CLI torrent search tool. Search across multiple sources, open .torrent in browser, or copy magnet links to your clipboard.
-
-## Features
-
-- 🔍 **Multi-Source Search** - Search across multiple torrent sources simultaneously
-- 🎯 **Smart Filters** - Filter by category, seeders, size
-- ⬇️ **Open in Browser** - Open .torrent files directly in your browser
-- 📋 **Copy Magnet** - Copy magnet links to clipboard for use with your torrent client
+A CLI torrent search tool. Search across multiple sources, open .torrent in browser, or copy magnet links to clipboard.
 
 ## Installation
 
@@ -30,13 +17,17 @@ npm run build
 # Search for torrents
 tor-dl search "movie title"
 
-# Open .torrent in browser or copy magnet link
+# Copy magnet link to clipboard
 tor-dl o 3
+
+# Show version
+tor-dl --version
 ```
 
-## Usage
+## Commands
 
-### Search Command
+### search <query>
+Search for torrents across multiple sources.
 
 ```bash
 tor-dl search <query> [options]
@@ -44,16 +35,32 @@ tor-dl search <query> [options]
 
 **Options:**
 
-| Flag | Description | Default |
+| Flag | Description | Example |
 |------|-------------|---------|
-| `-c, --cat <category>` | Category: all, movie, tv | from filters.json |
-| `-s, --min-seeds <number>` | Minimum seeders | from filters.json |
-| `--min-size <size>` | Minimum size (e.g., 500MB, 1GB) | from filters.json |
-| `--max-size <size>` | Maximum size (e.g., 5GB) | from filters.json |
-| `-o, --sort <field>` | Sort by: seeds, size, date | seeds |
-| `--order <order>` | Order: asc, desc | desc |
-| `-l, --limit <number>` | Result limit | 50 |
-| `--sources <sources>` | Sources: yts, thepiratebay, nyaa, etc. | all enabled |
+| `-c, --cat <category>` | Category to filter results | `all`, `movie`, `tv`, `anime`, `music`, `games`, `apps` |
+| `-s, --min-seeds <number>` | Minimum number of seeders | `100` |
+| `--max-seeds <number>` | Maximum number of seeders | `1000` |
+| `--min-size <size>` | Minimum file size | `500MB`, `1GB`, `2GB` |
+| `--max-size <size>` | Maximum file size | `5GB`, `10GB` |
+| `-o, --sort <field>` | Sort results by field | `seeds`, `size`, `date` |
+| `--order <order>` | Sort order | `asc` (low to high), `desc` (high to low) |
+| `-l, --limit <number>` | Maximum results to return | `10`, `50`, `100` |
+| `--sources <sources>` | Sources to search (comma-separated) | `yts,thepiratebay,nyaa` |
+
+**Available Categories:**
+- `all` - Search all categories
+- `movie` - Movies
+- `tv` - TV shows
+- `anime` - Anime (mainly Nyaa)
+- `music` - Music
+- `games` - Games
+- `apps` - Applications
+
+**Available Sources:**
+- `yts` - YTS (Movies only)
+- `eztv` - EZTV (TV shows)
+- `thepiratebay` - The Pirate Bay (All categories)
+- `nyaa` - Nyaa.si (Anime, Software)
 
 **Examples:**
 
@@ -61,36 +68,80 @@ tor-dl search <query> [options]
 # Basic search
 tor-dl search "Blade Runner 2049"
 
-# Filter by seeds and size
-tor-dl search "game of thrones" --cat tv --min-seeds 100 --min-size 500MB
+# Search movies with minimum seeds
+tor-dl search "movie" --cat movie --min-seeds 100
 
-# Search specific source
-tor-dl search "movie" --sources yts,thepiratebay
+# Search with size limits
+tor-dl search "linux" --min-size 500MB --max-size 2GB
+
+# Search specific sources only
+tor-dl search "game" --sources yts,thepiratebay
+
+# Sort by size (smallest first)
+tor-dl search "documentary" --sort size --order asc
+
+# Limit results to top 10
+tor-dl search "podcast" -l 10
 ```
 
-### Open Command
+### o <number>
+Copy .torrent URL or magnet link to clipboard for the selected result number.
 
 ```bash
 tor-dl o <number>
 ```
 
-Opens .torrent file in browser, or copies magnet link to clipboard.
+After running a search, enter the result number to copy the link to your clipboard.
+
+**Example:**
+```bash
+tor-dl search "python tutorial"
+# Results displayed...
+tor-dl o 5
+# Magnet link copied to clipboard!
+```
+
+### open <number>
+Same as `o` command - opens .torrent in browser or copies magnet link.
+
+```bash
+tor-dl open <number>
+```
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `-v, --version` | Show version number |
+| `-h, --help` | Show help information |
 
 ## Supported Sources
 
-- YTS (Movies)
-- The Pirate Bay
-- Nyaa (Anime)
-- EZTV (TV)
-- And more...
+| Source | Categories | Description |
+|--------|------------|-------------|
+| YTS | movie | Movie torrents with direct .torrent download |
+| The Pirate Bay | all | General torrent search |
+| Nyaa | anime, tv | Anime and Japanese media |
+| EZTV | tv | TV show torrents |
+
+## Size Format
+
+Size can be specified in various formats:
+- `KB` - Kilobytes
+- `MB` - Megabytes
+- `GB` - Gigabytes
+- `TB` - Terabytes
+
+Examples: `500MB`, `1.5GB`, `2GB`
 
 ## Requirements
 
 - Node.js >= 18.0.0
+- npm
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details.
+MIT License
 
 ## Disclaimer
 
