@@ -29,7 +29,7 @@ const scrapers: Record<string, SourceScraper> = {
 };
 
 export function loadSourcesConfig(): SourcesJSON {
-  const sourcesPath = join(process.cwd(), 'sources.json');
+  const sourcesPath = join(__dirname, '../../sources.json');
   if (existsSync(sourcesPath)) {
     return JSON.parse(readFileSync(sourcesPath, 'utf-8'));
   }
