@@ -16,13 +16,13 @@ export function displayResults(results: TorrentResult[]): void {
   const out = (s: string) => process.stdout.write(s + '\n');
 
   out('\n' + [
-    '┌─────┬───┬────────────────────────────────────────┬────────┬───────┬───────┬────────┐',
-    '│ Num │ L │ Name                                   │ Size   │ Seeds │ Leech │ Source │',
-    '├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤'
+    '┌─────┬───┬──────────────────────────────────────────────────────────────────────────────────┬────────┬───────┬───────┬────────┐',
+    '│ Num │ L │ Name                                                                             │ Size   │ Seeds │ Leech │ Source │',
+    '├─────┼───┼──────────────────────────────────────────────────────────────────────────────────┼────────┼───────┼───────┼────────┤'
   ].join('\n'));
 
   for (const r of results) {
-    const name = r.name.length > 38 ? r.name.substring(0, 35) + '...' : r.name;
+    const name = r.name.length > 80 ? r.name.substring(0, 77) + '...' : r.name;
     const size = r.size ? r.size.slice(0, 6).padEnd(6) : 'N/A   ';
     const seeds = r.seeds > 100 ? chalk.green(r.seeds.toString().padStart(5)) : r.seeds > 50 ? chalk.yellow(r.seeds.toString().padStart(5)) : r.seeds.toString().padStart(5);
     const peers = r.peers > 50 ? chalk.cyan(r.peers.toString().padStart(5)) : r.peers.toString().padStart(5);
@@ -32,14 +32,14 @@ export function displayResults(results: TorrentResult[]): void {
     const url = r.torrentUrl || r.magnet || '';
     const pageUrl = r.url || '';
     
-    const clickableName = url ? makeClickable(url, name.padEnd(38)) : name.padEnd(38);
+    const clickableName = url ? makeClickable(url, name.padEnd(80)) : name.padEnd(80);
     const clickableLink = pageUrl ? makeClickable(pageUrl, chalk.green('✓')) : chalk.gray(' ');
 
     out(`│ ${num} │ ${clickableLink} │ ${clickableName} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
 
-  out('├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
-  out('└─────┴───┴────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
+  out('├─────┼───┼──────────────────────────────────────────────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
+  out('└─────┴───┴──────────────────────────────────────────────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
   out(chalk.gray('Click name = open magnet/torrent | Click ✓ = open source page'));
 }
