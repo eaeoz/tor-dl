@@ -30,26 +30,48 @@ export function loadFilters(): FilterConfig {
 
 export function createParser(): Command {
   const program = new Command();
+  const filters = loadFilters();
   
   program
     .name('tor-dl')
     .description('CLI torrent search tool - search, open in browser, copy magnet links')
-    .version(getVersion(), '-v, --version');
+    .version(getVersion(), '-v, --version')
+    .showHelpAfterError()
+    .showSuggestionAfterError();
 
   program
     .command('search <query>')
-    .description('Search for torrents across multiple sources')
-    .option('-c, --cat <category>', 'Category: all, movie, tv, anime, music, games, apps')
-    .option('-s, --min-seeds <number>', 'Minimum seeders (e.g., 100)', parseInt)
-    .option('--max-seeds <number>', 'Maximum seeders (e.g., 1000)', parseInt)
-    .option('--min-size <size>', 'Minimum size (e.g., 500MB, 1GB, 2GB)')
-    .option('--max-size <size>', 'Maximum size (e.g., 5GB, 10GB)')
-    .option('-o, --sort <sortBy>', 'Sort by: seeds, size, date')
-    .option('--order <order>', 'Sort order: asc (low to high), desc (high to low)')
-    .option('-l, --limit <limit>', 'Maximum results to return (default: 50)', parseInt)
-    .option('--sources <sources>', 'Sources to search: yts, eztv, thepiratebay, nyaa (comma-separated)')
+    .description('Search for torrents. Use -h after search term for examples: tor-dl search "movie" -h')
+    .option('-c, --cat <category>', 'Category (all|movie|tv|anime|music|games|apps)')
+    .option('-s, --min-seeds <number>', 'Minimum seeders', parseInt)
+    .option('--max-seeds <number>', 'Maximum seeders', parseInt)
+    .option('--min-size <size>', 'Min size (e.g. 500MB, 1GB)')
+    .option('--max-size <size>', 'Max size (e.g. 5GB)')
+    .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
+    .option('--order <order>', 'Order (asc|desc)')
+    .option('-l, --limit <number>', 'Max results (default: 50)', parseInt)
+    .option('--sources <sources>', 'Sources (yts,eztv,thepiratebay,nyaa)')
+    .option('-h, --help', 'Show help with examples')
+    .allowUnknownOption()
+    .hook('preAction', (thisCommand) => {
+      const opts = thisCommand.opts();
+      if (opts.help || thisCommand.args.includes('-h')) {
+        console.log('');
+        console.log('Categories: all, movie, tv, anime, music, games, apps');
+        console.log('Sources:');
+        console.log('  yts        - YTS (Movies)');
+        console.log('  eztv       - EZTV (TV)');
+        console.log('  thepiratebay - The Pirate Bay');
+        console.log('  nyaa       - Nyaa.si (Anime)');
+        console.log('');
+        console.log('Examples:');
+        console.log('  tor-dl search "movie" -c movie -s 100');
+        console.log('  tor-dl search "anime" --sources nyaa --max-size 2GB');
+        console.log('  tor-dl search "linux" --min-size 500MB -l 10');
+        process.exit(0);
+      }
+    })
     .action(async (query: string, options) => {
-      const filters = loadFilters();
       
       const searchOptions: SearchOptions = {
         query,

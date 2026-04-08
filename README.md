@@ -2,15 +2,6 @@
 
 A CLI torrent search tool. Search across multiple sources, open .torrent in browser, or copy magnet links to clipboard.
 
-## Installation
-
-```bash
-git clone https://github.com/eaeoz/tor-dl.git
-cd tor-dl
-npm install
-npm run build
-```
-
 ## Quick Start
 
 ```bash
@@ -138,6 +129,15 @@ Examples: `500MB`, `1.5GB`, `2GB`
 
 - Node.js >= 18.0.0
 - npm
+
+## Local Installation
+
+```bash
+git clone https://github.com/eaeoz/tor-dl.git
+cd tor-dl
+npm install
+npm run build
+```
 
 ## License
 
