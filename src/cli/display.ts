@@ -28,18 +28,20 @@ export function displayResults(results: TorrentResult[]): void {
     const peers = r.peers > 50 ? chalk.cyan(r.peers.toString().padStart(5)) : r.peers.toString().padStart(5);
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
     const num = chalk.cyan(r.num.toString().padStart(3));
-    const link = r.torrentUrl || r.magnet ? chalk.green('✓') : ' ';
     
     const url = r.torrentUrl || r.magnet || '';
+    const pageUrl = r.url || '';
+    
     const clickableName = url ? makeClickable(url, name.padEnd(38)) : name.padEnd(38);
+    const clickableLink = pageUrl ? makeClickable(pageUrl, chalk.green('✓')) : chalk.gray(' ');
 
-    out(`│ ${num} │ ${link} │ ${clickableName} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
+    out(`│ ${num} │ ${clickableLink} │ ${clickableName} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
 
   out('├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
   out('└─────┴───┴────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out(chalk.gray('Use: tor-dl o <number> to copy link to clipboard'));
+  out(chalk.gray('Click name = open magnet/torrent | Click ✓ = open source page'));
 }
 
 export function displayResultDetails(result: TorrentResult): void {
