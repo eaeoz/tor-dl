@@ -5,7 +5,11 @@ A CLI torrent search tool. Search across multiple sources, open .torrent in brow
 ## Quick Start
 
 ```bash
-# Search for torrents
+# Run without installation (requires Node.js)
+npx tor-dl search "movie title"
+
+# Install globally for easy use
+npm install -g tor-dl
 tor-dl search "movie title"
 
 # Copy magnet link to clipboard
