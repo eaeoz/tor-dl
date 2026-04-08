@@ -51,10 +51,13 @@ tor-dl search <query> [options]
 - `games` - Games
 - `apps` - Applications
 
-**Available Sources:**
-- `yts` - YTS (Movies only)
-- `thepiratebay` - The Pirate Bay (All categories)
-- `nyaa` - Nyaa.si (Anime, Software)
+## Supported Sources
+
+| Source | Categories | Description |
+|--------|------------|-------------|
+| YTS | movie | Movie torrents with direct .torrent download |
+| The Pirate Bay | all | General torrent search |
+| Nyaa | anime, tv | Anime and Japanese media |
 
 **Examples:**
 
@@ -108,14 +111,6 @@ tor-dl open <number>
 |------|-------------|
 | `-v, --version` | Show version number |
 | `-h, --help` | Show help information |
-
-## Supported Sources
-
-| Source | Categories | Description |
-|--------|------------|-------------|
-| YTS | movie | Movie torrents with direct .torrent download |
-| The Pirate Bay | all | General torrent search |
-| Nyaa | anime, tv | Anime and Japanese media |
 
 ## Size Format
 
