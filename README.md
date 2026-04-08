@@ -55,9 +55,9 @@ tor-dl search <query> [options]
 
 | Source | Categories | Description |
 |--------|------------|-------------|
-| YTS | movie | Movie torrents with direct .torrent download |
-| The Pirate Bay | all | General torrent search |
-| Nyaa | anime, tv | Anime and Japanese media |
+| yts | movie | Movie torrents with direct .torrent download |
+| thepiratebay | all | General torrent search |
+| nyaa | anime, tv | Anime and Japanese media |
 
 **Examples:**
 
