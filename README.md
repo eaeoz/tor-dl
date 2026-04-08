@@ -49,7 +49,6 @@ tor-dl search <query> [options]
 
 **Available Sources:**
 - `yts` - YTS (Movies only)
-- `eztv` - EZTV (TV shows)
 - `thepiratebay` - The Pirate Bay (All categories)
 - `nyaa` - Nyaa.si (Anime, Software)
 
@@ -113,7 +112,6 @@ tor-dl open <number>
 | YTS | movie | Movie torrents with direct .torrent download |
 | The Pirate Bay | all | General torrent search |
 | Nyaa | anime, tv | Anime and Japanese media |
-| EZTV | tv | TV show torrents |
 
 ## Size Format
 
@@ -138,6 +136,10 @@ cd tor-dl
 npm install
 npm run build
 ```
+
+## Author
+
+Sedat ERGOZ [@eaeoz](https://github.com/eaeoz)
 
 ## License
 

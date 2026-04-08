@@ -35,7 +35,7 @@ export function createParser(): Command {
   const mainHelp = `
 Categories: all, movie, tv, anime, music, games, apps
 Sources:
-  yts - YTS (Movies) | eztv - EZTV (TV) | thepiratebay - The Pirate Bay | nyaa - Nyaa.si (Anime)`;
+  yts - YTS (Movies) | thepiratebay - The Pirate Bay | nyaa - Nyaa.si (Anime)`;
   
   program
     .name('tor-dl')
@@ -55,7 +55,7 @@ Sources:
     .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
     .option('--order <order>', 'Order (asc|desc)')
     .option('-l, --limit <number>', 'Max results (default: 50)', parseInt)
-    .option('-S, --sources <sources>', 'Sources (yts,eztv,thepiratebay,nyaa)')
+    .option('-S, --sources <sources>', 'Sources (yts,thepiratebay,nyaa)')
     .option('-h, --help', 'Show help with examples')
     .allowUnknownOption()
     .hook('preAction', (thisCommand) => {
@@ -65,13 +65,12 @@ Sources:
         console.log('Categories: all, movie, tv, anime, music, games, apps');
         console.log('Sources:');
         console.log('  yts        - YTS (Movies)');
-        console.log('  eztv       - EZTV (TV)');
         console.log('  thepiratebay - The Pirate Bay');
         console.log('  nyaa       - Nyaa.si (Anime)');
         console.log('');
         console.log('Examples:');
         console.log('  tor-dl search "movie" -c movie -s 100');
-        console.log('  tor-dl search "anime" --sources nyaa --max-size 2GB');
+        console.log('  tor-dl search "anime" -S nyaa --max-size 2GB');
         console.log('  tor-dl search "linux" --min-size 500MB -l 10');
         process.exit(0);
       }

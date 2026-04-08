@@ -3,7 +3,7 @@ import { TorrentResult, SourceScraper } from '../types';
 import { DEFAULT_HEADERS, TIMEOUT } from './httpClient';
 
 export class TorrentsCsvScraper implements SourceScraper {
-  name = 'torrents-csv';
+  name = 'torrentscsv';
 
   async search(query: string, category?: string): Promise<TorrentResult[]> {
     try {

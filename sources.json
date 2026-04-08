@@ -21,7 +21,7 @@
       "hasMagnet": true
     },
     "eztv": {
-      "enabled": true,
+      "enabled": false,
       "name": "EZTV",
       "baseUrl": "https://eztv.io",
       "searchUrl": "https://eztv.io/search/",
