@@ -3,13 +3,15 @@ import { TorrentResult } from '../types';
 
 (chalk as any).level = 1;
 
+function makeClickable(url: string, text: string): string {
+  return `\u001b]8;;${url}\u0007${text}\u001b]8;;\u0007`;
+}
+
 export function displayResults(results: TorrentResult[]): void {
   if (results.length === 0) {
     console.log(chalk.yellow('No results found.'));
     return;
   }
-
-  console.log(chalk.gray('\nTip: "tor-dl o <number>" to open .torrent or copy magnet link\n'));
 
   const out = (s: string) => process.stdout.write(s + '\n');
 
@@ -27,14 +29,17 @@ export function displayResults(results: TorrentResult[]): void {
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
     const num = chalk.cyan(r.num.toString().padStart(3));
     const link = r.torrentUrl || r.magnet ? chalk.green('✓') : ' ';
+    
+    const url = r.torrentUrl || r.magnet || '';
+    const clickableName = url ? makeClickable(url, name.padEnd(38)) : name.padEnd(38);
 
-    out(`│ ${num} │ ${link} │ ${name.padEnd(38)} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
+    out(`│ ${num} │ ${link} │ ${clickableName} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
   }
 
   out('├─────┼───┼────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
   out('└─────┴───┴────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out(chalk.gray('Use: tor-dl o <number> to open in browser or copy magnet link'));
+  out(chalk.gray('Use: tor-dl o <number> to copy link to clipboard'));
 }
 
 export function displayResultDetails(result: TorrentResult): void {
