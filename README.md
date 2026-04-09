@@ -179,6 +179,47 @@ winget install Transmission.Transmission
 
 After installation, you can open magnet links directly in Transmission.
 
+## Transfer to Mobile/Tablet/Apple TV
+
+After your download completes in Transmission, you can transfer the file directly to VLC on your mobile device, tablet, or Apple TV using WiFi transfer. 
+
+- If devices in different subnets: To connect to devices on different networks, port forwarding or routing must be configured on the network device which placed between them
+
+### Prerequisites
+
+1. **Set a Static IP** on your mobile device/tablet/Apple TV to ensure the IP address doesn't change
+2. Enable WiFi transfer on your device (VLC for iOS/Android has built-in WiFi transfer feature)
+
+### Upload Script
+
+Place `upload.bat` in the same folder where you added to your search script mentioned above PATH (or any folder in your PATH):
+
+```batch
+@echo off
+if "%~1"=="" (
+  echo Usage: upload.bat "full\path\to\file.mp4"
+  exit /b 1
+)
+
+set "FILE=%~1"
+set "REMOTE=http://192.168.1.222/upload.json"
+
+curl --progress-bar -F "file=@%FILE%" %REMOTE% -o NUL
+```
+
+**Note:** Replace `192.168.1.222` with your device's actual IP address.
+
+### Usage
+
+```bash
+upload.bat "C:\Users\YourName\Downloads\movie.mp4"
+```
+
+### Setting Static IP
+
+- **Mobile/Tablet**: Settings → WiFi → Long press your network → Modify Network → Set static IP
+- **Apple TV**: Settings → Network → Configure IP manually (or use DHCP with reserved IP on your router)
+
 ## Author
 
 Sedat ERGOZ [@eaeoz](https://github.com/eaeoz)
