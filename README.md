@@ -221,7 +221,7 @@ curl --progress-bar -F "file=@%FILE%" %REMOTE% -o NUL
 ### Usage
 
 ```bash
-upload.bat "C:\Users\YourName\Downloads\movie.mp4"
+upload "C:\Users\YourName\Downloads\movie.mp4"
 ```
 
 ## Author
