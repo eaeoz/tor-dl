@@ -190,6 +190,11 @@ After your download completes in Transmission, you can transfer the file directl
 1. **Set a Static IP** on your mobile device/tablet/Apple TV to ensure the IP address doesn't change
 2. Enable WiFi transfer on your device (VLC for iOS/Android has built-in WiFi transfer feature)
 
+### Setting Static IP
+
+- **Mobile/Tablet**: Settings → WiFi → Long press your network → Modify Network → Set static IP
+- **Apple TV**: Settings → Network → Configure IP manually (or use DHCP with reserved IP on your router)
+
 ### Upload Script
 
 Place `upload.bat` in the same folder where you added to your search script mentioned above PATH (or any folder in your PATH):
@@ -214,11 +219,6 @@ curl --progress-bar -F "file=@%FILE%" %REMOTE% -o NUL
 ```bash
 upload.bat "C:\Users\YourName\Downloads\movie.mp4"
 ```
-
-### Setting Static IP
-
-- **Mobile/Tablet**: Settings → WiFi → Long press your network → Modify Network → Set static IP
-- **Apple TV**: Settings → Network → Configure IP manually (or use DHCP with reserved IP on your router)
 
 ## Author
 

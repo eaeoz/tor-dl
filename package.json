@@ -1,6 +1,6 @@
 {
   "name": "tor-dl",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "CLI torrent search tool - search, open in browser, copy magnet links",
   "main": "dist/index.js",
   "bin": {
