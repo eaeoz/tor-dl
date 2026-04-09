@@ -177,6 +177,10 @@ For Windows users, you can install Transmission client using winget:
 winget install Transmission.Transmission
 ```
 
+Or download directly from the official website:
+
+- **Windows**: [https://transmissionbt.com/download](https://transmissionbt.com/download)
+
 After installation, you can open magnet links directly in Transmission.
 
 ## Transfer to Mobile/Tablet/Apple TV
