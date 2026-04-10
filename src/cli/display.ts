@@ -3,21 +3,27 @@ import { TorrentResult } from '../types';
 
 (chalk as any).level = 1;
 
+function isWideChar(code: number): boolean {
+  if (code > 0xFFFF) return true;
+  if (code > 255) return true;
+  if (code >= 0x1100 && code <= 0x115F) return true;
+  if (code >= 0x2329 && code <= 0x232A) return true;
+  if (code >= 0x2E80 && code <= 0x303E) return true;
+  if (code >= 0x3040 && code <= 0xA4CF) return true;
+  if (code >= 0xAC00 && code <= 0xD7A3) return true;
+  if (code >= 0xF900 && code <= 0xFAFF) return true;
+  if (code >= 0xFE10 && code <= 0xFE19) return true;
+  if (code >= 0xFE30 && code <= 0xFE6F) return true;
+  if (code >= 0xFF00 && code <= 0xFF60) return true;
+  if (code >= 0xFFE0 && code <= 0xFFE6) return true;
+  return false;
+}
+
 function displayWidth(str: string): number {
   let width = 0;
   for (const char of str) {
-    const code = char.charCodeAt(0);
-    if (code >= 0x1100 && code <= 0x115F) width += 2;
-    else if (code >= 0x2329 && code <= 0x232A) width += 2;
-    else if (code >= 0x2E80 && code <= 0x303E) width += 2;
-    else if (code >= 0x3040 && code <= 0xA4CF) width += 2;
-    else if (code >= 0xAC00 && code <= 0xD7A3) width += 2;
-    else if (code >= 0xF900 && code <= 0xFAFF) width += 2;
-    else if (code >= 0xFE10 && code <= 0xFE19) width += 2;
-    else if (code >= 0xFE30 && code <= 0xFE6F) width += 2;
-    else if (code >= 0xFF00 && code <= 0xFF60) width += 2;
-    else if (code >= 0xFFE0 && code <= 0xFFE6) width += 2;
-    else width += 1;
+    const cp = char.codePointAt(0)!;
+    width += isWideChar(cp) ? 2 : 1;
   }
   return width;
 }
@@ -26,8 +32,8 @@ function truncateWide(str: string, maxWidth: number): string {
   let width = 0;
   let result = '';
   for (const char of str) {
-    const code = char.charCodeAt(0);
-    const charWidth = (code >= 0x1100 && code <= 0x115F) || (code >= 0x2329 && code <= 0x232A) || (code >= 0x2E80 && code <= 0x303E) || (code >= 0x3040 && code <= 0xA4CF) || (code >= 0xAC00 && code <= 0xD7A3) || (code >= 0xF900 && code <= 0xFAFF) || (code >= 0xFE10 && code <= 0xFE19) || (code >= 0xFE30 && code <= 0xFE6F) || (code >= 0xFF00 && code <= 0xFF60) || (code >= 0xFFE0 && code <= 0xFFE6) ? 2 : 1;
+    const cp = char.codePointAt(0)!;
+    const charWidth = isWideChar(cp) ? 2 : 1;
     if (width + charWidth > maxWidth - 3) break;
     result += char;
     width += charWidth;
@@ -39,6 +45,18 @@ function padEndWide(str: string, targetWidth: number): string {
   const currentWidth = displayWidth(str);
   const padding = targetWidth - currentWidth;
   if (padding <= 0) return str;
+  return str + ' '.repeat(padding);
+}
+
+function padEndWideExtra(str: string, targetWidth: number): string {
+  const currentWidth = displayWidth(str);
+  const padding = targetWidth - currentWidth;
+  if (padding < 0) {
+    if ([...str].some(c => c.codePointAt(0)! > 255)) {
+      return str + '     ';
+    }
+    return str;
+  }
   return str + ' '.repeat(padding);
 }
 
@@ -71,7 +89,7 @@ export function displayResults(results: TorrentResult[]): void {
     const url = r.torrentUrl || r.magnet || '';
     const pageUrl = r.url || '';
     
-    const clickableName = url ? makeClickable(url, padEndWide(name, 80)) : padEndWide(name, 80);
+    const clickableName = url ? makeClickable(url, padEndWideExtra(name, 80)) : padEndWideExtra(name, 80);
     const clickableLink = pageUrl ? makeClickable(pageUrl, chalk.green('✓')) : chalk.gray(' ');
 
     out(`│ ${num} │ ${clickableLink} │ ${clickableName} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
