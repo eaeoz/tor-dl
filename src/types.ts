@@ -32,6 +32,7 @@ export interface SourcesJSON {
 
 export interface FilterConfig {
   category: string;
+  sources?: string;
   minSeeds: number;
   minSize: string;
   maxSize: string;

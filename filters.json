@@ -1,5 +1,6 @@
 {
-  "category": "yts,thepiratebay,nyaa",
+  "category": "all",
+  "sources": "yts,thepiratebay,nyaa,torrentscsv",
   "minSeeds": 0,
   "minSize": "0",
   "maxSize": "50GB",

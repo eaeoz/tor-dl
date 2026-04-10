@@ -14,8 +14,8 @@
     "torrentscsv": {
       "enabled": true,
       "name": "torrents-csv",
-      "baseUrl": "https://torrents-csv.ml",
-      "searchUrl": "https://torrents-csv.ml/api/search",
+      "baseUrl": "https://torrents-csv.com",
+      "searchUrl": "https://torrents-csv.com/service/search",
       "categories": ["all"],
       "searchParam": "q",
       "hasMagnet": true
