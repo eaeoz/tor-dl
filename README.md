@@ -208,13 +208,26 @@ Place `upload.bat` in the same folder where you added to your search script ment
 @echo off
 if "%~1"=="" (
   echo Usage: upload.bat "full\path\to\file.mp4"
+  echo Drag and drop a file onto the script also works.
   exit /b 1
 )
 
 set "FILE=%~1"
-set "REMOTE=http://192.168.1.222/upload.json"
+set "REMOTE=http://192.168.1.232/upload.json"
 
-curl --progress-bar -F "file=@%FILE%" %REMOTE% -o NUL
+if not exist "%FILE%" (
+  echo Error: File not found: "%FILE%"
+  exit /b 1
+)
+
+echo Uploading: %~nx1
+curl --progress-bar -F "file=@%FILE%" "%REMOTE%" -o NUL
+
+if %errorlevel%==0 (
+  echo Upload complete.
+) else (
+  echo Upload failed. Check connection or server.
+)
 ```
 
 **Note:** Replace `192.168.1.222` with your device's actual IP address.
