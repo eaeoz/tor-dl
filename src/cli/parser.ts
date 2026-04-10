@@ -55,7 +55,7 @@ Sources:
     .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
     .option('--order <order>', 'Order (asc|desc)')
     .option('-l, --limit <number>', 'Max results (default: 50)', parseInt)
-    .option('-S, --sources <sources>', 'Sources (yts,thepiratebay,nyaa)')
+    .option('-S, --sources <sources>', 'Sources (yts,torrentscsv,thepiratebay,nyaa)')
     .option('-h, --help', 'Show help with examples')
     .allowUnknownOption()
     .hook('preAction', (thisCommand) => {
@@ -64,9 +64,10 @@ Sources:
         console.log('');
         console.log('Categories: all, movie, tv, anime, music, games, apps');
         console.log('Sources:');
-        console.log('  yts        - YTS (Movies)');
+        console.log('  yts          - YTS (Movies)');
+        console.log('  torrentscsv  - Torrents.csv (All categories)');
         console.log('  thepiratebay - The Pirate Bay');
-        console.log('  nyaa       - Nyaa.si (Anime)');
+        console.log('  nyaa         - Nyaa.si (Anime)');
         console.log('');
         console.log('Examples:');
         console.log('  tor-dl search "movie" -c movie -s 100');

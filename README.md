@@ -40,7 +40,7 @@ tor-dl search <query> [options]
 | `-o, --sort <field>` | Sort results by field | `seeds`, `size`, `date` |
 | `--order <order>` | Sort order | `asc` (low to high), `desc` (high to low) |
 | `-l, --limit <number>` | Maximum results to return | `10`, `50`, `100` |
-| `-S, --sources <sources>` | Sources to search (comma-separated) | `yts,thepiratebay,nyaa` |
+| `-S, --sources <sources>` | Sources to search (comma-separated) | `yts,torrentscsv,thepiratebay,nyaa` |
 
 **Available Categories:**
 - `all` - Search all categories
@@ -56,6 +56,7 @@ tor-dl search <query> [options]
 | Source | Categories | Description |
 |--------|------------|-------------|
 | yts | movie | Movie torrents with direct .torrent download |
+| torrentscsv | all | General torrent search |
 | thepiratebay | all | General torrent search |
 | nyaa | anime, tv | Anime and Japanese media |
 
