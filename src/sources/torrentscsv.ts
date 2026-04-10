@@ -7,7 +7,7 @@ export class TorrentsCsvScraper implements SourceScraper {
 
   async search(query: string, category?: string): Promise<TorrentResult[]> {
     try {
-      const url = `https://torrents-csv.ml/api/search?q=${encodeURIComponent(query)}`;
+      const url = `https://torrents-csv.com/service/search?q=${encodeURIComponent(query)}&after=0`;
       const { data } = await axios.get(url, {
         headers: DEFAULT_HEADERS,
         timeout: TIMEOUT
@@ -20,14 +20,14 @@ export class TorrentsCsvScraper implements SourceScraper {
         results.push({
           num: results.length + 1,
           name: t.name || t.title || 'Unknown',
-          size: this.formatSize(t.length || t.size || 0),
-          sizeBytes: t.length || t.size || 0,
+          size: this.formatSize(t.size_bytes || t.length || t.size || 0),
+          sizeBytes: t.size_bytes || t.length || t.size || 0,
           seeds: t.seeders || t.s || 0,
           peers: t.leechers || t.l || 0,
           source: 'torrents-csv',
-          url: t.link || t.info_hash ? `magnet:?xt=urn:btih:${t.info_hash}` : '',
-          magnet: t.link || t.magnet ? `magnet:?xt=urn:btih:${t.info_hash}` : '',
-          hash: t.info_hash
+          url: `https://torrents-csv.com/#/search/torrent/${t.infohash}/1`,
+          magnet: `magnet:?xt=urn:btih:${t.infohash}`,
+          hash: t.infohash
         });
       }
       
@@ -40,7 +40,7 @@ export class TorrentsCsvScraper implements SourceScraper {
   }
 
   async getTorrentUrl(result: TorrentResult): Promise<string> {
-    return result.url;
+    return '';
   }
 
   async getMagnet(result: TorrentResult): Promise<string> {
