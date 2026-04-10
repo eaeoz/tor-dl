@@ -35,7 +35,7 @@ export function createParser(): Command {
   const mainHelp = `
 Categories: all, movie, tv, anime, music, games, apps
 Sources:
-  yts - YTS (Movies) | thepiratebay - The Pirate Bay | nyaa - Nyaa.si (Anime)`;
+  yts - movies | torrentscsv - general | thepiratebay - general | nyaa - anime`;
   
   program
     .name('tor-dl')
