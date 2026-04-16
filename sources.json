@@ -100,6 +100,15 @@
       "categories": ["all", "anime", "movie", "tv"],
       "searchParam": "q",
       "hasMagnet": true
+    },
+    "rargb": {
+      "enabled": true,
+      "name": "RARGB",
+      "baseUrl": "https://rargb.to",
+      "searchUrl": "https://rargb.to/torrents.php",
+      "categories": ["all", "movie", "tv", "games", "music", "anime", "apps", "documentary", "other", "xxx"],
+      "searchParam": "search",
+      "hasMagnet": true
     }
   }
 }

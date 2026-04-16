@@ -36,7 +36,7 @@ export function createParser(): Command {
   const mainHelp = `
 Categories: all, movie, tv, anime, music, games, apps
 Sources:
-  yts - movies | torrentscsv - general | thepiratebay - general | 1337x - general | nyaa - anime
+  yts - movies | torrentscsv - general | thepiratebay - general | 1337x - general | nyaa - anime | rargb - general
 
 Letterboxd Integration:
   setuser <username>  Set your Letterboxd username
@@ -73,7 +73,7 @@ Examples:
     .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
     .option('--order <order>', 'Order (asc|desc)')
     .option('-l, --limit <number>', 'Max results (default: 50)', parseInt)
-    .option('-S, --sources <sources>', 'Sources (yts,torrentscsv,thepiratebay,1337x,nyaa)')
+    .option('-S, --sources <sources>', 'Sources (yts,torrentscsv,thepiratebay,1337x,nyaa,rargb)')
     .option('-h, --help', 'Show help with examples')
     .allowUnknownOption()
     .hook('preAction', (thisCommand) => {
@@ -81,12 +81,13 @@ Examples:
       if (opts.help || thisCommand.args.includes('-h')) {
         console.log('');
         console.log('Categories: all, movie, tv, anime, music, games, apps');
-        console.log('Sources:');
+        console.log('Sources: yts, torrentscsv, thepiratebay, 1337x, nyaa, rargb');
         console.log('  yts          - YTS (Movies)');
         console.log('  torrentscsv  - Torrents.csv (All categories)');
         console.log('  thepiratebay - The Pirate Bay');
         console.log('  1337x        - 1337x (All categories)');
         console.log('  nyaa         - Nyaa.si (Anime)');
+        console.log('  rargb        - RARGB.to (All categories)');
         console.log('');
         console.log('Examples:');
         console.log('  tor-dl search "movie" -c movie -s 100');
@@ -147,7 +148,7 @@ Examples:
     .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
     .option('--order <order>', 'Order (asc|desc)')
     .option('-l, --limit <number>', 'Max results', parseInt)
-    .option('-S, --sources <sources>', 'Sources (yts,torrentscsv,thepiratebay,1337x,nyaa)')
+    .option('-S, --sources <sources>', 'Sources (yts,torrentscsv,thepiratebay,1337x,nyaa,rargb)')
     .action(async (filters: string[], options) => {
       const { setFilterCommand } = await import('../commands/user');
       await setFilterCommand(options);

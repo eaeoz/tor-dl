@@ -40,7 +40,7 @@ tor-dl search <query> [options]
 | `-o, --sort <field>` | Sort results by field | `seeds`, `size`, `date` |
 | `--order <order>` | Sort order | `asc` (low to high), `desc` (high to low) |
 | `-l, --limit <number>` | Maximum results to return | `10`, `50`, `100` |
-| `-S, --sources <sources>` | Sources to search (comma-separated) | `yts,torrentscsv,thepiratebay,1337x,nyaa` |
+| `-S, --sources <sources>` | Sources to search (comma-separated) | `yts,torrentscsv,thepiratebay,1337x,nyaa,rargb` |
 
 **Available Categories:**
 - `all` - Search all categories
@@ -60,6 +60,7 @@ tor-dl search <query> [options]
 | thepiratebay | all | General torrent search |
 | 1337x | all | General torrent search |
 | nyaa | anime, tv | Anime and Japanese media |
+| rargb | all | RARBG proxy - movies, TV, games, music, anime, apps, doc, other, xxx |
 
 **Examples:**
 
@@ -187,7 +188,7 @@ Max Size: 50GB
 Sort By: seeds
 Order: desc
 Limit: 60
-Sources: yts,thepiratebay,nyaa,torrentscsv,1337x
+Sources: yts,thepiratebay,nyaa,torrentscsv,1337x,rargb
 ----------------------
 ```
 

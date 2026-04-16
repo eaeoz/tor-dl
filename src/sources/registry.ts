@@ -7,13 +7,15 @@ import torrentscsv from './torrentscsv';
 import yts from './yts';
 import nyaa from './nyaa';
 import _1337x from './1337x';
+import rargb from './rargb';
 
 const scrapers: Record<string, SourceScraper> = {
   yts,
   thepiratebay,
   nyaa,
   torrentscsv,
-  '1337x': _1337x
+  '1337x': _1337x,
+  rargb
 };
 
 export function loadSourcesConfig(): SourcesJSON {
