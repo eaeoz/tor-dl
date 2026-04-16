@@ -8,26 +8,33 @@ export class LimetorrentsScraper implements SourceScraper {
 
   async search(query: string, category?: string): Promise<TorrentResult[]> {
     try {
-      const catMap: Record<string, string> = { movie: 'movies', tv: 'tv', music: 'music', games: 'games', apps: 'applications' };
-      const catParam = category && catMap[category] ? `/${catMap[category]}` : '';
-      const url = `https://www.limetorrent.eu/search${catParam}/${encodeURIComponent(query)}`;
+      const catMap: Record<string, string> = { movie: 'movies', tv: 'tv', music: 'music', games: 'games', apps: 'applications', anime: 'anime', other: 'other' };
+      const catParam = category && catMap[category] ? `${catMap[category]}/` : '';
+      const url = `https://limetorrent.store/search/?catname=&q=${encodeURIComponent(query)}`;
       
       const { data } = await axios.get(url, {
-        headers: DEFAULT_HEADERS,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Referer': 'https://limetorrent.store/'
+        },
         timeout: TIMEOUT
       });
       
       const $ = cheerio.load(data);
       const results: TorrentResult[] = [];
       
-      $('table.table2 tr').each((i, el) => {
-        const title = $(el).find('td:nth-child(1) a').text().trim();
-        const size = $(el).find('td:nth-child(2)').text().trim();
-        const seeds = parseInt($(el).find('td:nth-child(3)').text().trim()) || 0;
-        const peers = parseInt($(el).find('td:nth-child(4)').text().trim()) || 0;
-        const link = $(el).find('td:nth-child(1) a').attr('href') || '';
+      $('table.table2 tbody.torsearch tr').each((i, el) => {
+        const titleEl = $(el).find('div.tt-name a').last();
+        const title = titleEl.text().trim();
+        const size = $(el).find('td:nth-child(3)').text().trim();
+        const seedsText = $(el).find('td:nth-child(4)').text().trim();
+        const seeds = parseInt(seedsText) || 0;
+        const peers = parseInt($(el).find('td:nth-child(5)').text().trim()) || 0;
+        const link = titleEl.attr('href') || '';
         
-        if (title && !title.includes(' Torrent')) {
+        if (title && link && !title.includes('Torrent') && !link.includes('#')) {
           results.push({
             num: results.length + 1,
             name: title,
@@ -36,7 +43,7 @@ export class LimetorrentsScraper implements SourceScraper {
             seeds,
             peers,
             source: 'Limetorrents',
-            url: link.startsWith('http') ? link : `https://www.limetorrent.eu${link}`,
+            url: link.startsWith('http') ? link : `https://limetorrent.store${link}`,
             magnet: ''
           });
         }

@@ -8,6 +8,7 @@ import yts from './yts';
 import nyaa from './nyaa';
 import _1337x from './1337x';
 import rargb from './rargb';
+import limetorrents from './limetorrent';
 
 const scrapers: Record<string, SourceScraper> = {
   yts,
@@ -15,7 +16,8 @@ const scrapers: Record<string, SourceScraper> = {
   nyaa,
   torrentscsv,
   '1337x': _1337x,
-  rargb
+  rargb,
+  limetorrents
 };
 
 export function loadSourcesConfig(): SourcesJSON {

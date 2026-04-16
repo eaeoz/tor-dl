@@ -66,11 +66,11 @@
       "hasMagnet": true
     },
     "limetorrents": {
-      "enabled": false,
+      "enabled": true,
       "name": "Limetorrents",
-      "baseUrl": "https://www.limetorrent.eu",
-      "searchUrl": "https://www.limetorrent.eu/search",
-      "categories": ["all", "movie", "tv", "music", "games", "apps"],
+      "baseUrl": "https://limetorrent.store",
+      "searchUrl": "https://limetorrent.store/search",
+      "categories": ["all", "movie", "tv", "music", "games", "apps", "anime", "other"],
       "searchParam": "q",
       "hasMagnet": true
     },

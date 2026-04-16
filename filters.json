@@ -1,6 +1,6 @@
 {
   "category": "all",
-  "sources": "yts,thepiratebay,nyaa,torrentscsv,1337x,rargb",
+  "sources": "yts,thepiratebay,nyaa,torrentscsv,1337x,rargb,limetorrents",
   "minSeeds": 0,
   "maxSeeds": 0,
   "minSize": "0",
