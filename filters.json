@@ -1,5 +1,5 @@
 {
-  "category": "movie",
+  "category": "all",
   "sources": "yts,thepiratebay,nyaa,torrentscsv",
   "minSeeds": 0,
   "maxSeeds": 0,
