@@ -86,10 +86,10 @@ export function displayResults(results: TorrentResult[]): void {
     const source = (r.source || 'unknown').slice(0, 6).padEnd(6);
     const num = chalk.cyan(r.num.toString().padStart(3));
     
-    const url = r.torrentUrl || r.magnet || '';
+    const clickableUrl = r.torrentUrl || r.magnet || r.url || '';
     const pageUrl = r.url || '';
     
-    const clickableName = url ? makeClickable(url, padEndWideExtra(name, 80)) : padEndWideExtra(name, 80);
+    const clickableName = clickableUrl ? makeClickable(clickableUrl, padEndWideExtra(name, 80)) : padEndWideExtra(name, 80);
     const clickableLink = pageUrl ? makeClickable(pageUrl, chalk.green('✓')) : chalk.gray(' ');
 
     out(`│ ${num} │ ${clickableLink} │ ${clickableName} │ ${size} │ ${seeds} │ ${peers} │ ${source} │`);
@@ -98,7 +98,7 @@ export function displayResults(results: TorrentResult[]): void {
   out('├─────┼───┼──────────────────────────────────────────────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
   out('└─────┴───┴──────────────────────────────────────────────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out(chalk.gray('Click name = open magnet/torrent | Click ✓ = open source page'));
+  out(chalk.gray('Click name = open magnet/torrent (or page if no magnet) | Click ✓ = open source page'));
 }
 
 export function displayResultDetails(result: TorrentResult): void {

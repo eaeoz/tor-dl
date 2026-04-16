@@ -6,6 +6,29 @@ import { filterByCategory, filterBySize, filterBySeeds, sortResults } from '../f
 import { displayResults } from '../cli/display';
 import { cacheResults } from '../download/engine';
 
+async function fetchMagnets(results: TorrentResult[], sources: any[], spinner: any): Promise<void> {
+  const magnetsSpinner = ora('Fetching magnet links...').start();
+  let fetched = 0;
+  const total = results.length;
+
+  const promises = results.map(async (result) => {
+    const source = sources.find(s => s.name.toLowerCase() === result.source?.toLowerCase());
+    if (source && source.getMagnet && !result.magnet) {
+      try {
+        const magnet = await source.getMagnet(result);
+        if (magnet) {
+          result.magnet = magnet;
+          fetched++;
+          magnetsSpinner.text = `Fetching magnet links... ${fetched}/${total}`;
+        }
+      } catch { /* ignore */ }
+    }
+  });
+
+  await Promise.all(promises);
+  magnetsSpinner.succeed(`Fetched ${fetched} magnet links.`);
+}
+
 function displaySearchInfo(options: SearchOptions, sources: any[]): void {
   console.log(chalk.gray('\n--- Search Parameters ---'));
   
@@ -90,6 +113,8 @@ export async function searchCommand(options: SearchOptions): Promise<void> {
   }
   
   filtered = filtered.map((r, i) => ({ ...r, num: i + 1 }));
+  
+  await fetchMagnets(filtered, sources, spinner);
   
   cacheResults(filtered);
   

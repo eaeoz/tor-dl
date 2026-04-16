@@ -1,6 +1,6 @@
 {
   "name": "tor-dl",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "CLI torrent search tool - search, open in browser, copy magnet links",
   "main": "dist/index.js",
   "bin": {
@@ -14,6 +14,7 @@
     "axios": "^1.6.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
+    "cloudscraper": "^4.6.0",
     "commander": "^11.1.0",
     "ora": "^6.3.1"
   },
@@ -24,8 +25,12 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "keywords": ["tor-dl", "torrent", "downloader"],
-  "author": "Sedat ERGOZ",  
+  "keywords": [
+    "tor-dl",
+    "torrent",
+    "downloader"
+  ],
+  "author": "Sedat ERGOZ",
   "license": "ISC",
   "repository": {
     "type": "git",

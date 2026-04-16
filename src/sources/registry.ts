@@ -6,15 +6,14 @@ import thepiratebay from './thepiratebay';
 import torrentscsv from './torrentscsv';
 import yts from './yts';
 import nyaa from './nyaa';
+import _1337x from './1337x';
 
 const scrapers: Record<string, SourceScraper> = {
-  // Supported working scrapers only
   yts,
   thepiratebay,
   nyaa,
-  torrentscsv
-  // Unsupported scrapers (frequently blocked/change structure):
-  // eztv, solidtorrents, torlock, torrentproject, limetorrent, '1337x', rarbg
+  torrentscsv,
+  '1337x': _1337x
 };
 
 export function loadSourcesConfig(): SourcesJSON {

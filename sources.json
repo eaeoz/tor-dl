@@ -75,11 +75,11 @@
       "hasMagnet": true
     },
     "1337x": {
-      "enabled": false,
+      "enabled": true,
       "name": "1337x",
-      "baseUrl": "https://1337x.to",
-      "searchUrl": "https://1337x.to/category-search",
-      "categories": ["all", "movie", "tv", "music", "games", "apps"],
+      "baseUrl": "https://1337xx.to",
+      "searchUrl": "https://1337xx.to/category-search",
+      "categories": ["all", "movie", "tv", "music", "games", "apps", "anime", "documentary", "other", "xxx"],
       "searchParam": "search",
       "hasMagnet": true
     },
