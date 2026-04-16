@@ -1,10 +1,11 @@
 {
-  "category": "all",
+  "category": "movie",
   "sources": "yts,thepiratebay,nyaa,torrentscsv",
   "minSeeds": 0,
+  "maxSeeds": 0,
   "minSize": "0",
   "maxSize": "50GB",
   "sortBy": "seeds",
   "order": "desc",
-  "limit": 60
+  "limit": 70
 }

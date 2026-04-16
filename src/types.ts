@@ -34,6 +34,7 @@ export interface FilterConfig {
   category: string;
   sources?: string;
   minSeeds: number;
+  maxSeeds?: number;
   minSize: string;
   maxSize: string;
   sortBy: 'seeds' | 'size' | 'date';

@@ -20,6 +20,7 @@ export function loadFilters(): FilterConfig {
   return {
     category: 'all',
     minSeeds: 0,
+    maxSeeds: 0,
     minSize: '0',
     maxSize: '50GB',
     sortBy: 'seeds',
@@ -35,7 +36,24 @@ export function createParser(): Command {
   const mainHelp = `
 Categories: all, movie, tv, anime, music, games, apps
 Sources:
-  yts - movies | torrentscsv - general | thepiratebay - general | nyaa - anime`;
+  yts - movies | torrentscsv - general | thepiratebay - general | nyaa - anime
+
+Letterboxd Integration:
+  setuser <username>  Set your Letterboxd username
+  list               List movies from your watchlist
+  find <number>      Search and download a movie from list
+  filters           Show current search filters
+  user              Show current username
+
+Examples:
+  tor-dl setuser Sedat85          # Set Letterboxd username
+  tor-dl list                    # List watchlist movies
+  tor-dl list -l 10              # Limit to 10 movies
+  tor-dl find 1                 # Find first movie (with year)
+  tor-dl find 1 --noyear       # Find without year
+  tor-dl setfilter -c movie -s 50  # Set filters
+  tor-dl filters                 # Show filters
+  tor-dl user                   # Show username`;
   
   program
     .name('tor-dl')
@@ -108,6 +126,80 @@ Sources:
     const { openInBrowser } = await import('../commands/download');
     await openInBrowser(parseInt(number));
   });
+
+  program
+    .command('setuser <username>')
+    .description('Set Letterboxd username (e.g., tor-dl setuser Sedat85)')
+    .action(async (username: string) => {
+      const { setUserCommand } = await import('../commands/user');
+      await setUserCommand(username);
+    });
+
+  program
+    .command('setfilter [filters...]')
+    .description('Set search filters (e.g., tor-dl setfilter -c movie -s 100 --min-size 1GB)')
+    .option('-c, --cat <category>', 'Category (all|movie|tv|anime|music|games|apps)')
+    .option('-s, --min-seeds <number>', 'Minimum seeders', parseInt)
+    .option('--max-seeds <number>', 'Maximum seeders', parseInt)
+    .option('--min-size <size>', 'Min size (e.g. 500MB, 1GB)')
+    .option('--max-size <size>', 'Max size (e.g. 5GB)')
+    .option('-o, --sort <sortBy>', 'Sort by (seeds|size|date)')
+    .option('--order <order>', 'Order (asc|desc)')
+    .option('-l, --limit <number>', 'Max results', parseInt)
+    .option('-S, --sources <sources>', 'Sources (yts,torrentscsv,thepiratebay,nyaa)')
+    .action(async (filters: string[], options) => {
+      const { setFilterCommand } = await import('../commands/user');
+      await setFilterCommand(options);
+    });
+
+  program
+    .command('list')
+    .description('List movies from Letterboxd watchlist')
+    .option('-l, --limit <number>', 'Max movies to show', parseInt)
+    .action(async (options) => {
+      const { listCommand } = await import('../commands/user');
+      await listCommand(options);
+    });
+
+  program
+    .command('filters')
+    .description('Show current search filters')
+    .action(async () => {
+      const filters = loadFilters();
+      console.log('\n--- Current Filters ---');
+      console.log('Category:', filters.category);
+      console.log('Min Seeds:', filters.minSeeds);
+      console.log('Max Seeds:', filters.maxSeeds || 'unlimited');
+      console.log('Min Size:', filters.minSize);
+      console.log('Max Size:', filters.maxSize);
+      console.log('Sort By:', filters.sortBy);
+      console.log('Order:', filters.order);
+      console.log('Limit:', filters.limit);
+      console.log('Sources:', (filters as any).sources || 'all');
+      console.log('----------------------\n');
+    });
+
+  program
+    .command('user')
+    .description('Show current username')
+    .action(async () => {
+      const { loadUserConfig } = await import('../commands/user');
+      const config = loadUserConfig();
+      const username = config.letterboxd.username;
+      console.log('\n--- User ---');
+      console.log('Letterboxd:', username || '(not set)');
+      console.log('-----------\n');
+    });
+
+  program
+    .command('find <number>')
+    .description('Download movie by number from list')
+    .option('--noyear', 'Search without year')
+    .allowUnknownOption()
+    .action(async (number: string, options: any) => {
+      const { findCommand } = await import('../commands/user');
+      await findCommand(parseInt(number), options);
+    });
 
   program.on('command:*', () => {
     console.error('Invalid command: %s\nSee --help for a list of available commands.', program.args[0]);

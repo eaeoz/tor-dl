@@ -106,6 +106,118 @@ Same as `o` command - opens .torrent in browser or copies magnet link.
 tor-dl open <number>
 ```
 
+---
+
+## Letterboxd Integration
+
+tor-dl can fetch movies from your Letterboxd watchlist and search for torrents directly.
+
+### Setup Your Username
+
+```bash
+tor-dl setuser Sedat85
+```
+
+Replace `Sedat85` with your actual Letterboxd username.
+
+### List Your Watchlist
+
+```bash
+tor-dl list
+tor-dl list -l 10    # Limit to 10 movies
+```
+
+This fetches movies from your Letterboxd watchlist and displays them with numbers.
+
+**Example output:**
+
+```
+--- Watchlist ---
+1. Children of Men (2006)
+2. The Drama (2026)
+3. Forbidden Fruits (2026)
+----------------
+Use: tor-dl find <number> to search and download
+```
+
+### Find and Download
+
+After listing your watchlist, use the movie number to search and download:
+
+```bash
+tor-dl find 1                 # Search with year (default)
+tor-dl find 1 --noyear       # Search without year
+```
+
+- Default: searches "Movie Title 2026" (includes year for accuracy)
+- `--noyear`: searches "Movie Title" only (more results)
+
+### Configure Search Filters
+
+Set default filters for all searches:
+
+```bash
+tor-dl setfilter -c movie           # Category: movie
+tor-dl setfilter -s 50            # Minimum 50 seeds
+tor-dl setfilter --min-size 1GB    # Minimum 1GB
+tor-dl setfilter --max-size 5GB    # Maximum 5GB
+tor-dl setfilter -o seeds         # Sort by seeds
+tor-dl setfilter --order desc      # Order: descending
+tor-dl setfilter -l 30            # Limit 30 results
+tor-dl setfilter -S yts,torrentscsv  # Sources: YTS & torrentscsv
+```
+
+### View Current Settings
+
+```bash
+tor-dl filters    # Show current search filters
+tor-dl user     # Show current username
+```
+
+**Filters output:**
+
+```
+--- Current Filters ---
+Category: movie
+Min Seeds: 0
+Max Seeds: unlimited
+Min Size: 0
+Max Size: 50GB
+Sort By: seeds
+Order: desc
+Limit: 60
+Sources: yts,thepiratebay,nyaa,torrentscsv
+----------------------
+```
+
+**User output:**
+
+```
+--- User ---
+Letterboxd: Sedat85
+-----------
+```
+
+### Complete Workflow
+
+```bash
+# 1. Set your Letterboxd username
+tor-dl setuser Sedat85
+
+# 2. Set preferred filters (optional)
+tor-dl setfilter -c movie -s 50 --min-size 1GB
+
+# 3. List your watchlist
+tor-dl list
+
+# 4. Find and download movie #1
+tor-dl find 1
+# OR without year for more results
+tor-dl find 1 --noyear
+```
+
+---
+
 ### Options
 
 | Flag | Description |
