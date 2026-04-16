@@ -349,9 +349,56 @@ if %errorlevel%==0 (
 
 ### Usage
 
+- Open the folder in File Explorer, then right-click and select **"Open in Terminal"** (or "Open PowerShell window here").
+
+If you are already inside the folder where the file is located, you can use:
+
+```
+upload movie.mp4
+```
+or
+
 ```bash
 upload "C:\Users\YourName\Downloads\movie.mp4"
 ```
+
+- You can autocomplete file names using the TAB key.
+
+#### Example:
+
+```
+upload scr
+```
+
+Press `TAB` → it will expand to:
+
+```
+upload "Scream 7.mp4"
+```
+
+If multiple files match, press `TAB` repeatedly to cycle through options:
+
+```
+Scream 7.mp4
+Scream 6.mp4
+script.txt
+```
+
+---
+
+### Example Workflow
+
+```
+cd C:\Users\YourName\Downloads
+upload scr
+```
+
+Press `TAB`:
+
+```
+upload "Scream 7.mp4"
+```
+
 
 ## Author
 
