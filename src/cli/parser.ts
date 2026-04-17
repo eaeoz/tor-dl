@@ -103,7 +103,7 @@ Examples:
         query,
         category: options.cat || filters.category,
         minSeeds: options.minSeeds ?? filters.minSeeds,
-        maxSeeds: options.maxSeeds,
+        maxSeeds: options.maxSeeds ?? (filters as any).maxSeeds,
         minSize: options.minSize || filters.minSize,
         maxSize: options.maxSize || filters.maxSize,
         sortBy: (options.sort as 'seeds' | 'size' | 'date') || filters.sortBy,
