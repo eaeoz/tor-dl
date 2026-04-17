@@ -109,7 +109,7 @@ Examples:
         sortBy: (options.sort as 'seeds' | 'size' | 'date') || filters.sortBy,
         order: (options.order as 'asc' | 'desc') || filters.order,
         limit: options.limit || filters.limit,
-        sources: options.sources ? options.sources.split(',') : (filters as any).sources ? (filters as any).sources.split(',') : undefined
+        sources: options.sources ? options.sources.split(/[,\s]+/).map((s: string) => s.trim()).filter((s: string) => s) : (filters as any).sources ? (filters as any).sources.split(/[,\s]+/).map((s: string) => s.trim()).filter((s: string) => s) : undefined
       };
 
       const { searchCommand } = await import('../commands/search');

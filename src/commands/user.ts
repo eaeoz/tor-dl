@@ -50,8 +50,9 @@ export async function setFilterCommand(options: any): Promise<void> {
   if (options.order) filters.order = options.order;
   if (options.limit) filters.limit = options.limit;
   if (options.sources) {
-    const srcArr = options.sources.split ? options.sources.split(',') : options.sources;
-    filters.sources = Array.isArray(srcArr) ? srcArr.join(',') : srcArr;
+    const srcArr = options.sources.split ? options.sources.split(/[,\s]+/) : options.sources;
+    const cleaned = Array.isArray(srcArr) ? srcArr.map((s: string) => s.trim()).filter((s: string) => s) : srcArr;
+    filters.sources = Array.isArray(cleaned) ? cleaned.join(',') : cleaned;
   }
   
   const filtersPath = join(__dirname, '../../filters.json');
