@@ -48,7 +48,6 @@ Letterboxd Integration:
 Examples:
   tor-dl setuser Sedat85          # Set Letterboxd username
   tor-dl list                    # List watchlist movies
-  tor-dl list -l 10              # Limit to 10 movies
   tor-dl find 1                 # Find first movie (with year)
   tor-dl find 1 --noyear       # Find without year
   tor-dl setfilter -c movie -s 50  # Set filters
@@ -158,7 +157,6 @@ Examples:
   program
     .command('list')
     .description('List movies from Letterboxd watchlist')
-    .option('-l, --limit <number>', 'Max movies to show', parseInt)
     .action(async (options) => {
       const { listCommand } = await import('../commands/user');
       await listCommand(options);

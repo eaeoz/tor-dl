@@ -91,7 +91,7 @@ function saveWatchlistCache(movies: WatchlistMovie[]): void {
 
 let watchlistCache: WatchlistMovie[] = [];
 
-export async function listCommand(options: { limit?: number }): Promise<void> {
+export async function listCommand(_options: unknown): Promise<void> {
   const config = loadUsers();
   const username = config.letterboxd.username;
   
@@ -129,17 +129,17 @@ const response = await axios.get(profileUrl, { headers, timeout: 30000, validate
       return;
     }
     
-const $ = cheerio.load(response.data);
+    const $ = cheerio.load(response.data);
     
-    $('[data-item-name]').each((i, elem) => {
-      if (options.limit && i >= options.limit) return;
+    $('[data-item-name]').each((_i, elem) => {
       
       const el = $(elem);
       const fullName = el.attr('data-item-name') || '';
       const href = el.attr('data-item-link') || '';
       
       if (fullName && href && href.includes('/film/')) {
-        const exists = movies.some(m => m.name === fullName);
+        const nameLower = fullName.toLowerCase();
+        const exists = movies.some(m => m.name.toLowerCase() === nameLower);
         if (!exists) {
           const yearMatch = fullName.match(/\((\d{4})\)$/);
           const movieName = yearMatch ? fullName.replace(/\s*\(\d{4}\)\s*$/, '').trim() : fullName;
@@ -155,8 +155,7 @@ const $ = cheerio.load(response.data);
     });
     
     if (movies.length === 0) {
-      $('a[href*="/film/"][title]').each((i, elem) => {
-        if (options.limit && i >= options.limit) return;
+      $('a[href*="/film/"][title]').each((_i, elem) => {
         
         const el = $(elem);
         const name = el.attr('title') || '';
@@ -179,8 +178,7 @@ const $ = cheerio.load(response.data);
     }
     
     if (movies.length === 0) {
-      $('a[href*="/film/"]').each((i, elem) => {
-        if (options.limit && i >= options.limit) return;
+      $('a[href*="/film/"]').each((_i, elem) => {
         
         const el = $(elem);
         const href = el.attr('href') || '';
@@ -208,58 +206,57 @@ const $ = cheerio.load(response.data);
       });
     }
     
-    if (movies.length > 0) {
-      watchlistCache = movies;
-      saveWatchlistCache(movies);
-      spinner.succeed(`Found ${movies.length} movies`);
-      
-      console.log(chalk.gray('\n--- Watchlist ---'));
-      movies.forEach(m => {
-        const ratingStr = m.rating ? ` ${m.rating}` : '';
-        const yearStr = m.year ? `(${m.year})` : '';
-        console.log(chalk.cyan(`${m.num}. `) + chalk.white(m.name) + chalk.gray(` ${yearStr}${ratingStr}`));
-      });
-      console.log(chalk.gray('----------------\n'));
-      console.log(chalk.gray('Use: tor-dl find <number> to search and download'));
-      return;
-    }
-    
     const watchlistUrl = `https://letterboxd.com/${username}/watchlist/`;
     const watchlistResponse = await axios.get(watchlistUrl, { headers, timeout: 30000, validateStatus: () => true });
     
-    if (watchlistResponse.status === 403) {
-      spinner.warn('Letterboxd blocking requests. Try using: tor-dl setuser <username> then manually run search command');
-      return;
-    }
-    const $wl = cheerio.load(watchlistResponse.data);
-    
-    const cleanHtml = watchlistResponse.data.replace(/<script\b[^<]*(?:<[^<]*)<\/?script>/gi, '');
-    const $2 = cheerio.load(cleanHtml);
-    
-    $2('a[href*="/film/"]').each((i, elem) => {
-      if (options.limit && i >= options.limit) return;
-      const el = $2(elem);
-      const href = el.attr('href') || '';
-      let name = el.text().trim().replace(/\s*\(\d{4}\)\s*$/, '').replace(/\s+/g, ' ').trim();
+    if (watchlistResponse.status !== 403 && watchlistResponse.data) {
+      const cleanHtml = watchlistResponse.data.replace(/<script\b[^<]*(?:<[^<]*)<\/?script>/gi, '');
+      const $wl = cheerio.load(cleanHtml);
       
-      if (href.includes('/film/') && name && name.length > 1 && name.length < 200) {
-        const exists = movies.some(m => m.name === name);
-        if (!exists) {
-          const yearMatch = name.match(/\((\d{4})\)$/);
-          movies.push({
-            num: movies.length + 1,
-            name: yearMatch ? name.replace(/\s*\(\d{4}\)\s*$/, '').trim() : name,
-            year: yearMatch ? yearMatch[1] : '',
-            rating: '',
-            url: 'https://letterboxd.com' + href
-          });
+      $wl('[data-item-name]').each((_i, elem) => {
+        const el = $wl(elem);
+        const fullName = el.attr('data-item-name') || '';
+        const href = el.attr('data-item-link') || '';
+        
+        if (fullName && href && href.includes('/film/')) {
+          const nameLower = fullName.toLowerCase();
+          const exists = movies.some(m => m.name.toLowerCase().includes(nameLower) || nameLower.includes(m.name.toLowerCase()));
+          if (!exists) {
+            const yearMatch = fullName.match(/\((\d{4})\)$/);
+            const movieName = yearMatch ? fullName.replace(/\s*\(\d{4}\)\s*$/, '').trim() : fullName;
+            movies.push({
+              num: movies.length + 1,
+              name: movieName,
+              year: yearMatch ? yearMatch[1] : '',
+              rating: '',
+              url: 'https://letterboxd.com' + href
+            });
+          }
         }
+      });
+      
+      if (movies.length <= 5) {
+        $wl('a[href*="/film/"]').each((_i, elem) => {
+          const el = $wl(elem);
+          const href = el.attr('href') || '';
+          let name = el.text().trim().replace(/\s*\(\d{4}\)\s*$/, '').replace(/\s+/g, ' ').trim();
+          
+          if (href.includes('/film/') && name && name.length > 1 && name.length < 200) {
+            const nameLower = name.toLowerCase();
+            const exists = movies.some(m => m.name.toLowerCase().includes(nameLower) || nameLower.includes(m.name.toLowerCase()));
+            if (!exists) {
+              const yearMatch = name.match(/\((\d{4})\)$/);
+              movies.push({
+                num: movies.length + 1,
+                name: yearMatch ? name.replace(/\s*\(\d{4}\)\s*$/, '').trim() : name,
+                year: yearMatch ? yearMatch[1] : '',
+                rating: '',
+                url: 'https://letterboxd.com' + href
+              });
+            }
+          }
+        });
       }
-    });
-    
-    if (movies.length === 0) {
-      spinner.warn('No movies found in watchlist');
-      return;
     }
     
     watchlistCache = movies;

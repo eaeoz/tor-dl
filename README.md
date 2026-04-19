@@ -127,7 +127,6 @@ Replace `Sedat85` with your actual Letterboxd username.
 
 ```bash
 tor-dl list
-tor-dl list -l 10    # Limit to 10 movies
 ```
 
 This fetches movies from your Letterboxd watchlist and displays them with numbers.
