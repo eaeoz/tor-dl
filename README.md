@@ -131,6 +131,27 @@ tor-dl list
 
 This fetches movies from your Letterboxd watchlist and displays them with numbers.
 
+### Setup (one time)
+
+Letterboxd now blocks plain HTTP requests with a Cloudflare challenge, so `tor-dl list`
+uses a bundled headless Chromium browser to fetch your watchlist. Install it once
+per machine (no Chrome needed — Playwright downloads its own):
+
+```bash
+tor-dl setup
+```
+
+This downloads ~270 MB of headless Chromium into the Playwright cache:
+
+- Windows: `%LOCALAPPDATA%\ms-playwright`
+- Linux/macOS: `~/.cache/ms-playwright`
+
+On Linux, `tor-dl setup` also tries to install the required system libraries
+(needs sudo; if it can't, run `sudo npx playwright install-deps chromium-headless-shell`).
+
+If the browser is missing or the fetch still fails, `tor-dl list` shows the last
+cached watchlist (may be stale).
+
 **Example output:**
 
 ```

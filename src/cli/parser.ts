@@ -1,7 +1,8 @@
 import { Command } from 'commander';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync } from 'fs';
 import { join } from 'path';
 import { FilterConfig, SearchOptions } from '../types';
+import { loadJsonFile } from '../config';
 
 function getVersion(): string {
   try {
@@ -13,11 +14,7 @@ function getVersion(): string {
 }
 
 export function loadFilters(): FilterConfig {
-  const filtersPath = join(__dirname, '../../filters.json');
-  if (existsSync(filtersPath)) {
-    return JSON.parse(readFileSync(filtersPath, 'utf-8'));
-  }
-  return {
+  return loadJsonFile<FilterConfig>('filters.json', {
     category: 'all',
     minSeeds: 0,
     maxSeeds: 0,
@@ -26,7 +23,7 @@ export function loadFilters(): FilterConfig {
     sortBy: 'seeds',
     order: 'desc',
     limit: 50
-  };
+  });
 }
 
 export function createParser(): Command {
@@ -39,6 +36,7 @@ Sources:
   yts - movies | torrentscsv - general | thepiratebay - general | 1337x - general | nyaa - anime | rargb - general | limetorrents - general
 
 Letterboxd Integration:
+  setup <none>       Install headless Chromium (required once for list)
   setuser <username>  Set your Letterboxd username
   list               List movies from your watchlist
   find <number>      Search and download a movie from list
@@ -46,6 +44,7 @@ Letterboxd Integration:
   user              Show current username
 
 Examples:
+  tor-dl setup                   # Install headless Chromium (one time)
   tor-dl setuser Sedat85          # Set Letterboxd username
   tor-dl list                    # List watchlist movies
   tor-dl find 1                 # Find first movie (with year)
@@ -135,6 +134,14 @@ Examples:
     .action(async (username: string) => {
       const { setUserCommand } = await import('../commands/user');
       await setUserCommand(username);
+    });
+
+  program
+    .command('setup')
+    .description('Install headless Chromium for Letterboxd watchlist fetching')
+    .action(async () => {
+      const { setupCommand } = await import('../commands/setup');
+      await setupCommand({});
     });
 
   program

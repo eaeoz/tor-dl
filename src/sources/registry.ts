@@ -1,6 +1,6 @@
 import { readFileSync, existsSync } from 'fs';
-import { join } from 'path';
 import { SourcesJSON, SourceConfig, SourceScraper } from '../types';
+import { getFilePath } from '../config';
 
 import thepiratebay from './thepiratebay';
 import torrentscsv from './torrentscsv';
@@ -21,7 +21,7 @@ const scrapers: Record<string, SourceScraper> = {
 };
 
 export function loadSourcesConfig(): SourcesJSON {
-  const sourcesPath = join(__dirname, '../../sources.json');
+  const sourcesPath = getFilePath('sources.json');
   if (existsSync(sourcesPath)) {
     return JSON.parse(readFileSync(sourcesPath, 'utf-8'));
   }

@@ -7,5 +7,7 @@
   "maxSize": "50GB",
   "sortBy": "seeds",
   "order": "desc",
-  "limit": 70
+  "limit": 70,
+  "qualityFilter": "",
+  "searchAppend": ""
 }
