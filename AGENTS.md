@@ -34,6 +34,16 @@ node dist/bin/tor-dl.js -v               # Version
 - **Fix**: Must use custom `parseSizeStr()` function - do NOT use `parseInt()` or `Number()`
 - **Location**: `src/sources/yts.ts`
 
+### 3. Ora ESM Issue
+- **Problem**: ora v6 is ESM-only, breaks `require("ora")` in Electron 29 (Node 20.9) in-process usage
+- **Fix**: Use ora@5.4.1 (CommonJS compatible)
+- **Command**: `npm install ora@5.4.1`
+
+### 4. All deps must be CommonJS-loadable
+- The app (movie-downloader) loads tor-dl in-process via `require()` under Electron 29's Node 20.9
+- Only `require(esm)`-safe Node is used for CLI testing (v24); verify against Electron Node with `ELECTRON_RUN_AS_NODE=1`
+- Currently verified CJS-safe: ora@5.4.1, chalk@4, commander@11, cheerio, axios, cloudscraper, playwright
+
 ## Key Files
 - `sources.json` - Enable/disable torrent sources, contains updateUrl
 - `filters.json` - Default search filters (category, minSeeds, minSize, maxSize, sortBy, order)

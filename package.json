@@ -1,6 +1,6 @@
 {
   "name": "tor-dl",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "CLI torrent search tool - search, open in browser, copy magnet links",
   "main": "dist/index.js",
   "bin": {
@@ -16,7 +16,7 @@
     "cheerio": "^1.0.0-rc.12",
     "cloudscraper": "^4.6.0",
     "commander": "^11.1.0",
-    "ora": "^6.3.1",
+    "ora": "^5.4.1",
     "playwright": "^1.62.1"
   },
   "devDependencies": {
