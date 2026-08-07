@@ -98,7 +98,7 @@ export function displayResults(results: TorrentResult[]): void {
   out('├─────┼───┼──────────────────────────────────────────────────────────────────────────────────┼────────┼───────┼───────┼────────┤');
   out('└─────┴───┴──────────────────────────────────────────────────────────────────────────────────┴────────┴───────┴───────┴────────┘');
   out('');
-  out(chalk.gray('Click name = open magnet/torrent (or page if no magnet) | Click ✓ = open source page'));
+  out(chalk.gray('Ctrl + Click name = open magnet/torrent (or page if no magnet) | Ctrl + Click ✓ = open source page'));
 }
 
 export function displayResultDetails(result: TorrentResult): void {
